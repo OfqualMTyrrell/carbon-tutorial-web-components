@@ -1767,7 +1767,6 @@ This creates a horizontal list with pipe separators between links.
 27. **Placeholder Replacement**: Use `element.replaceWith()` when replacing entire components, `innerHTML` for content only
 28. **Dynamic Class Modifiers**: Use template literals to build BEM modifier classes from data: `${block}--${modifier}`
 29. **Pictogram Pattern**: Combine base styles with modifier classes for dynamic icon systems using CSS masks
-30. **Upstream Validation**: Always compare final implementation with next step's branch to catch subtle formatting and structural differences
 
 ---
 
