@@ -678,7 +678,7 @@ development.
 <template id="template--info-card">
   <div
     class="info-card cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-5 cds--xlg:col-span-4 cds--css-grid-column">
-    <div class="info-card__uppder">
+    <div class="info-card__upper">
       <h4 class="info-card__heading">Carbon is <strong class="info-card__heading--strong">thing goes here</strong></h4>
       <p class="info-card__body">Body goes here</p>
     </div>
@@ -1823,8 +1823,8 @@ This creates a horizontal list with pipe separators between links.
 - **Responsive Breakpoints**: Added complete mobile-first to desktop responsive pattern with `breakpoint-down()`
 - **CSS Formatting**: Multi-line `box-shadow` declarations match Carbon style guide
 - **BEM Consistency**: Document the importance of following exact BEM naming conventions from upstream
-- **Template Structure**: Preserve even apparent "typos" from upstream (e.g., `info-card__uppder`) when they're
-  intentional template placeholders
+- **Template Structure**: Match upstream template structure exactly, including proper BEM naming like `info-card__upper`
+  for semantic template sections
 - **Component Files**: Organize page-specific JavaScript (landing.js, repos.js) separately from global (main.js)
 
 ```
