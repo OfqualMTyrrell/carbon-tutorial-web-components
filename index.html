@@ -6,19 +6,31 @@
   <link rel="icon" type="image/svg+xml" href="/carbon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carbon tutorial web components</title>
+  <!-- Global JS: UI shell, theme switcher, component imports -->
   <script type="module" src="/main.js"></script>
+  <!-- Landing page JS: tabs, breadcrumb, info cards -->
   <script type="module" src="/landing.js"></script>
 </head>
 
 <body class="app">
+  <!-- Header with compliment class for inverted theme -->
   <header>
     <cds-header class="compliment">
+      <!-- Skip to content link (must be first for accessibility) -->
       <cds-skip-to-content href="#main-content"></cds-skip-to-content>
+      
+      <!-- Hamburger menu for mobile navigation -->
       <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
+      
+      <!-- Brand/product name -->
       <cds-header-name href="./" prefix="IBM">Carbon Tutorial</cds-header-name>
+      
+      <!-- Desktop navigation -->
       <cds-header-nav menu-bar-label="Carbon Tutorial">
         <cds-header-nav-item href="./repositories.html">Repositories</cds-header-nav-item>
       </cds-header-nav>
+      
+      <!-- Mobile navigation (appears in sidebar) -->
       <cds-side-nav is-not-persistent aria-label="Side navigation" collapse-mode="${SIDE_NAV_COLLAPSE_MODE.RESPONSIVE}">
         <cds-side-nav-items>
           <cds-side-nav-link href="./repositories.html">
@@ -26,21 +38,33 @@
           </cds-side-nav-link>
         </cds-side-nav-items>
       </cds-side-nav>
+      
+      <!-- Global actions (right side of header) -->
       <div class="cds--header__global">
+        <!-- Notification action -->
         <cds-header-global-action aria-label="Notifications" class="notification" panel-id="notification-panel">
           <div class="action-icon" slot="icon"></div>
         </cds-header-global-action>
+        
+        <!-- User profile action -->
         <cds-header-global-action aria-label="User Profile" class="user-avatar" panel-id="user-profile-panel">
           <div class="action-icon" slot="icon"></div>
         </cds-header-global-action>
+        
+        <!-- App switcher action -->
         <cds-header-global-action aria-label="App Switcher" class="app-switcher" panel-id="app-switcher-panel">
           <div class="action-icon" slot="icon"></div>
         </cds-header-global-action>
+        
+        <!-- Notification panel (slide-out) -->
         <cds-header-panel id="notification-panel" aria-label="Notification Panel">Notification Panel</cds-header-panel>
+        
+        <!-- User profile panel with theme switcher -->
         <cds-header-panel id="user-profile-panel" aria-label="User profile Panel">
           <div class="header-panel__content">
             <h2 class="header-panel__title">User profile Panel</h2>
 
+            <!-- Theme selector: light, system, or dark -->
             <cds-content-switcher value="system" class="theme-selector">
               <cds-content-switcher-item icon value="light">
                 <div class="theme-selector__icon theme-selector__icon--light"></div>
@@ -55,16 +79,25 @@
                 <span slot="tooltip-content">Dark theme</span>
               </cds-content-switcher-item>
             </cds-content-switcher>
+            
+            <!-- Toggle header theme (compliment) -->
             <cds-checkbox id="theme-header__compliment" class="theme-header__compliment" checked name="theme-header__compliment">Global header reverse
               theme</cds-checkbox>
           </div>
         </cds-header-panel>
+        
+        <!-- App switcher panel (slide-out) -->
         <cds-header-panel id="app-switcher-panel" aria-label="App switcher Panel">App switcher Panel</cds-header-panel>
       </div>
     </cds-header>
   </header>
+  
+  <!-- Main content area (target for skip-to-content) -->
   <main id="main-content" class="main">
+    <!-- Landing page with Carbon CSS Grid (16-column grid system) -->
     <div class="page page-landing cds--css-grid cds--css-grid--full-width">
+      
+      <!-- Banner section: Breadcrumb and heading -->
       <div class="page-landing__banner cds--css-grid-column cds--col-span-100">
         <cds-breadcrumb noTrailingSlash aria-label="Page navigation">
           <cds-breadcrumb-item>
@@ -73,12 +106,17 @@
         </cds-breadcrumb>
         <h1 class="page-landing__heading">Design &amp; build with Carbon</h1>
       </div>
+      
+      <!-- Content section: Tabs with panels -->
       <div class="page-landing__r2 cds--css-grid-column cds--col-span-100">
+        <!-- Tab navigation -->
         <cds-tabs value="about" class="page-landing__tabs">
           <cds-tab id="tab-about" value="about" target="panel-about">About</cds-tab>
           <cds-tab id="tab-design" value="design" target="panel-design">Design</cds-tab>
           <cds-tab id="tab-develop" value="develop" target="panel-develop">Develop</cds-tab>
         </cds-tabs>
+        
+        <!-- About tab panel -->
         <div id="panel-about" role="tabpanel" aria-labelledby="tab-about">
           <div class="cds--subgrid cds--subgrid--full-wide">
             <div class="page-landing__tab-content cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-7">
@@ -110,6 +148,7 @@
           </div>
         </div>
 
+        <!-- Develop tab panel -->
         <div id="panel-develop" role="tabpanel" aria-labelledby="tab-develop">
           <div class="cds--subgrid cds--subgrid--full-wide">
             <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-16">
@@ -124,12 +163,17 @@
           </div>
         </div>
       </div>
+      
+      <!-- Principles section: Info cards populated by landing.js -->
       <div class="page-landing__r3 cds--css-grid-column cds--col-span-100">
         <div class="cds--subgrid cds--subgrid--full-wide">
+          <!-- Section heading -->
           <div
             class="info-section__column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-16 cds--xlg:col-span-4 cds--css-grid-column">
             <h3 class="info-section__heading">The Principles</h3>
           </div>
+          
+          <!-- Info card placeholders (replaced by landing.js with template content) -->
           <div class="info-card">
             Carbon is open
           </div>
@@ -145,14 +189,18 @@
   </main>
 </body>
 
+<!-- Info card template: Cloned and populated by landing.js for each principle -->
 <template id="template--info-card">
   <div class="info-card cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-5 cds--xlg:col-span-4 cds--css-grid-column">
     <div class="info-card__uppder">
+      <!-- Heading with dynamic strong text -->
       <h4 class="info-card__heading">Carbon is <strong class="info-card__heading--strong">thing goes here</strong></h4>
+      <!-- Body text populated from data -->
       <p class="info-card__body">
         Body goes here
       </p>
     </div>
+    <!-- Pictogram with dynamic modifier class added (--advocate, --globe, etc.) -->
     <div class="info-card__pictogram"></div>
   </div>
 </template>

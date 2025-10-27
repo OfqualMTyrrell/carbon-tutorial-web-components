@@ -6,11 +6,14 @@
   <link rel="icon" type="image/svg+xml" href="/carbon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carbon tutorial web components</title>
+  <!-- Global JS: UI shell, theme switcher, component imports -->
   <script type="module" src="/main.js"></script>
+  <!-- Repositories page JS: GitHub API, table population, pagination -->
   <script type="module" src="/repos.js"></script>
 </head>
 
 <body class="app">
+  <!-- Header (same as index.html) -->
   <header>
     <cds-header class="compliment">
       <cds-skip-to-content href="#main-content"></cds-skip-to-content>
@@ -63,19 +66,25 @@
       </div>
     </cds-header>
   </header>
+  
+  <!-- Main content area -->
   <main id="main-content" class="main">
     <div class="page page-repositories cds--css-grid cds--css-grid--full-width">
       <div class="repo-page__r1 cds--css-grid-column cds--col-span-100">
+        <!-- Initial loading state: Skeleton table (replaced by repos.js after data fetch) -->
         <cds-table-skeleton></cds-table-skeleton>
       </div>
     </div>
   </main>
 </body>
 
+<!-- Table template: Cloned by repos.js to replace skeleton loader -->
 <template id="template--table">
   <cds-table expandable>
     <cds-table-header-title slot="title">Carbon Repositories</cds-table-header-title>
     <cds-table-header-description slot="description">A collection of public Carbon repositories.</cds-table-header-description>
+    
+    <!-- Table header row -->
     <cds-table-head>
       <cds-table-header-row>
         <cds-table-header-cell>Name</cds-table-header-cell>
@@ -86,8 +95,12 @@
         <cds-table-header-cell>Links</cds-table-header-cell>
       </cds-table-header-row>
     </cds-table-head>
+    
+    <!-- Table body: Populated by repos.js -->
     <cds-table-body>Table body goes here</cds-table-body>
   </cds-table>
+  
+  <!-- Pagination component -->
   <cds-pagination backward-text="Previous page" forward-text="Next page" itemsPerPageText="Items per page">
     <cds-select-item value="10">10</cds-select-item>
     <cds-select-item value="20">20</cds-select-item>
@@ -97,8 +110,10 @@
   </cds-pagination>
 </template>
 
+<!-- Table row template: Cloned by repos.js for each repository -->
 <template id="template--table-row">
   <cds-table-row>
+    <!-- Cells with 'key' attributes map to data properties -->
     <cds-table-cell key="name">Repo 1</cds-table-cell>
     <cds-table-cell key="created">Date</cds-table-cell>
     <cds-table-cell key="updated">Date</cds-table-cell>
@@ -106,6 +121,7 @@
     <cds-table-cell key="stars">456</cds-table-cell>
     <cds-table-cell key="links">Links</cds-table-cell>
   </cds-table-row>
+  <!-- Expandable row shows repository description -->
   <cds-table-expanded-row key="expansion">Repo description</cds-table-expanded-row>
 </template>
 
