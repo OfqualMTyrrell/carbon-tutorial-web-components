@@ -151,7 +151,7 @@ cds-content-switcher-item[selected] .theme-selector__icon {
 .page-landing__subheading {
   @include type-style('productive-heading-03');
 
-  font-weight: 600;
+  font-weight: font-weight('semibold');
 }
 
 .page-landing__p {

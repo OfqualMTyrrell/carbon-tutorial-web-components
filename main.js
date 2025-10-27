@@ -19,7 +19,7 @@ const bodyEl = document.querySelector('body');
 const handleGlobalActionClick = (ev) => {
   const targetPanelId = ev.currentTarget.getAttribute('panel-id');
   const panels = document.querySelectorAll('cds-header-panel');
-  
+
   panels.forEach((panel) => {
     if (panel.id !== targetPanelId) {
       panel.expanded = false;
@@ -29,9 +29,7 @@ const handleGlobalActionClick = (ev) => {
 
 // Attach click handlers to all global actions
 const globalActions = document.querySelectorAll('cds-header-global-action');
-[...globalActions].forEach((action) =>
-  action.addEventListener('click', handleGlobalActionClick),
-);
+[...globalActions].forEach((action) => action.addEventListener('click', handleGlobalActionClick));
 
 // === Theme Switching ===
 // Handle theme selection: light, dark, or system preference
@@ -52,18 +50,12 @@ const handleSwitch = (ev) => {
   }
 };
 
-document
-  .querySelector('.theme-selector')
-  .addEventListener('cds-content-switcher-selected', handleSwitch);
+document.querySelector('.theme-selector').addEventListener('cds-content-switcher-selected', handleSwitch);
 
 // === Header Compliment Theme ===
 // Toggle header theme (inverts header color relative to body)
 const handleHeaderCompliment = (ev) => {
-  document
-    .querySelector('cds-header')
-    .classList.toggle('compliment', ev.target.checked);
+  document.querySelector('cds-header').classList.toggle('compliment', ev.target.checked);
 };
 
-document
-  .querySelector('.theme-header__compliment')
-  .addEventListener('cds-checkbox-changed', handleHeaderCompliment);
+document.querySelector('.theme-header__compliment').addEventListener('cds-checkbox-changed', handleHeaderCompliment);

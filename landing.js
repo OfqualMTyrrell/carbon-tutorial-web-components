@@ -33,9 +33,7 @@ cohesive user experiences.`,
 // === Template Population ===
 // Clone info card template and populate with data
 const updateInfoCard = (here, { strongMsg, bodyMsg, pictogramName }) => {
-  const infoCardTemplate = document.querySelector(
-    'template#template--info-card',
-  );
+  const infoCardTemplate = document.querySelector('template#template--info-card');
 
   if (here && infoCardTemplate) {
     // Clone template content
