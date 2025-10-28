@@ -22,6 +22,7 @@ Components as designed by IBM.
 - [HTML Templates Pattern](#html-templates-pattern)
 - [Component Template Pattern](#component-template-pattern)
 - [BEM Naming Conventions](#bem-naming-conventions)
+- [Linting and Code Quality](#linting-and-code-quality)
 - [Accessibility Patterns](#accessibility-patterns)
 - [Best Practices](#best-practices)
 
@@ -1293,6 +1294,361 @@ document.querySelector('.element')?.addEventListener('event', handler);
 
 ---
 
+## Linting and Code Quality
+
+### Why Linting is Critical for Carbon Design System
+
+Linting ensures consistency with Carbon Design System's architectural decisions and best practices:
+
+1. **Carbon Token Enforcement**: Ensures use of Carbon design tokens instead of hard-coded values
+2. **Accessibility Compliance**: Catches accessibility violations early in development
+3. **RTL/Internationalization**: Enforces logical CSS properties for right-to-left language support
+4. **BEM Naming Consistency**: Validates proper Block Element Modifier naming conventions
+5. **Code Formatting**: Maintains consistent code style across the team
+6. **Spelling**: Prevents typos in code, comments, and documentation
+
+### Linting Tools Configuration
+
+#### 1. Stylelint (SCSS/CSS Linting)
+
+**Purpose**: Enforces Carbon design tokens, accessibility rules, and logical properties for RTL support.
+
+**Installation:**
+
+```bash
+pnpm add -D stylelint stylelint-plugin-carbon-tokens
+# Extended configuration (recommended):
+pnpm add -D @double-great/stylelint-a11y stylelint-config-standard-scss stylelint-use-logical-spec
+```
+
+**Configuration (`.stylelintrc.json`):**
+
+```json
+{
+  "extends": [
+    "stylelint-plugin-carbon-tokens/config/recommended",
+    "stylelint-config-standard-scss"
+  ],
+  "plugins": [
+    "stylelint-plugin-carbon-tokens",
+    "@double-great/stylelint-a11y",
+    "stylelint-use-logical-spec"
+  ],
+  "reportDescriptionlessDisables": true,
+  "reportInvalidScopeDisables": true,
+  "reportNeedlessDisables": true,
+  "rules": {
+    "selector-class-pattern": "^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$",
+    "declaration-empty-line-before": null,
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["top", "bottom"]
+      }
+    ]
+  }
+}
+```
+
+**Key Features:**
+
+- **Carbon Token Plugin**: Flags hard-coded values that should use Carbon design tokens
+  ```scss
+  // ❌ Wrong
+  font-weight: 600;
+  
+  // ✅ Correct
+  font-weight: font-weight('semibold');
+  ```
+
+- **BEM Pattern Validation**: Ensures proper Block__Element--Modifier naming
+  ```scss
+  // ✅ Valid BEM patterns
+  .page-landing__banner { }
+  .info-card__heading { }
+  .theme-selector__icon--dark { }
+  ```
+
+- **Logical Properties**: Auto-fixes physical properties to logical ones for RTL support
+  ```scss
+  // Before auto-fix:
+  margin-left: $spacing-05;
+  padding-right: $spacing-03;
+  border-left: 1px solid;
+  
+  // After auto-fix:
+  margin-inline-start: $spacing-05;
+  padding-inline-end: $spacing-03;
+  border-inline-start: 1px solid;
+  ```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:style": "stylelint \"**/*.scss\"",
+    "lint:style:fix": "stylelint \"**/*.scss\" --fix"
+  }
+}
+```
+
+#### 2. ESLint (JavaScript Linting)
+
+**Purpose**: Enforces JavaScript best practices and code quality.
+
+**Installation:**
+
+```bash
+pnpm add -D eslint @eslint/js eslint-config-prettier globals
+```
+
+**Configuration (`eslint.config.js`):**
+
+```javascript
+import js from '@eslint/js';
+import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
+
+export default [
+  js.configs.recommended,
+  eslintConfigPrettier,
+  {
+    languageOptions: {
+      ecmaVersion: 2024,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+];
+```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:es": "eslint . main.js --report-unused-disable-directives --max-warnings 0"
+  }
+}
+```
+
+#### 3. Prettier (Code Formatting)
+
+**Purpose**: Maintains consistent code formatting across all file types.
+
+**Installation:**
+
+```bash
+pnpm add -D prettier
+```
+
+**Configuration (`.prettierrc`):**
+
+```json
+{
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "proseWrap": "always"
+}
+```
+
+**Key Settings:**
+
+- `printWidth: 120`: Matches Carbon's wider line length for readability
+- `singleQuote: true`: Consistent with Carbon's JavaScript style
+- `bracketSameLine: true`: JSX-friendly formatting
+- `proseWrap: "always"`: Wraps markdown documentation consistently
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:format": "prettier ./**/*.{js,jsx,ts,tsx,md,mdx,scss} --write --ignore-unknown --no-error-on-unmatched-pattern --log-level warn"
+  }
+}
+```
+
+#### 4. CSpell (Spell Checker)
+
+**Purpose**: Catches typos in code, comments, and documentation.
+
+**Installation:**
+
+```bash
+pnpm add -D cspell
+```
+
+**Configuration (`cspell.json`):**
+
+```json
+{
+  "version": "0.1",
+  "language": "en",
+  "enabledLanguageIds": [
+    "css",
+    "git-commit",
+    "html",
+    "javascript",
+    "json",
+    "jsonc",
+    "markdown",
+    "scss",
+    "typescript",
+    "yaml"
+  ],
+  "words": ["flexbox", "illo", "subgrid", "Subgrid", "Subgrids"]
+}
+```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:spell": "cspell lint --quiet \"**/*.{js,css,scss,md}\""
+  }
+}
+```
+
+### Linting Workflow
+
+**1. Run all linters before committing:**
+
+```bash
+pnpm run lint:style && pnpm run lint:es && pnpm run lint:spell
+```
+
+**2. Auto-fix what can be fixed:**
+
+```bash
+pnpm run lint:style -- --fix
+pnpm run lint:format
+```
+
+**3. Common Issues and Fixes:**
+
+| Issue | Tool | Solution |
+|-------|------|----------|
+| Hard-coded CSS values | Stylelint | Use Carbon tokens: `font-weight('semibold')`, `$spacing-05` |
+| Physical CSS properties | Stylelint | Run `--fix` to convert to logical properties |
+| BEM naming violations | Stylelint | Follow `block__element--modifier` pattern |
+| Code formatting | Prettier | Run `lint:format` to auto-format |
+| Typos | CSpell | Fix typo or add to `words` array if intentional |
+
+### Why Logical Properties Matter for Carbon
+
+Logical properties enable seamless right-to-left (RTL) language support without code changes:
+
+**Physical Properties (❌ RTL-incompatible):**
+```scss
+.card {
+  margin-left: 16px;    // Always left margin, even in RTL
+  padding-right: 8px;   // Always right padding, even in RTL
+  border-left: 1px solid; // Always left border, even in RTL
+}
+```
+
+**Logical Properties (✅ RTL-compatible):**
+```scss
+.card {
+  margin-inline-start: 16px;    // Left in LTR, right in RTL
+  padding-inline-end: 8px;      // Right in LTR, left in RTL
+  border-inline-start: 1px solid; // Left in LTR, right in RTL
+}
+```
+
+**Logical Property Reference:**
+
+| Physical | Logical | Meaning |
+|----------|---------|---------|
+| `left` | `inline-start` | Start of reading direction |
+| `right` | `inline-end` | End of reading direction |
+| `top` | `block-start` | Start of block flow |
+| `bottom` | `block-end` | End of block flow |
+| `width` | `inline-size` | Size along reading direction |
+| `height` | `block-size` | Size along block flow |
+| `margin-left` | `margin-inline-start` | Margin at reading start |
+| `padding-right` | `padding-inline-end` | Padding at reading end |
+
+### Carbon Token Enforcement Examples
+
+Stylelint with the Carbon tokens plugin ensures you use design tokens instead of magic numbers:
+
+```scss
+// ❌ Flagged by stylelint
+.element {
+  font-weight: 600;           // Use font-weight('semibold')
+  padding: 16px;              // Use $spacing-05
+  color: #161616;             // Use $text-primary
+  font-size: 14px;            // Use type-style mixin
+}
+
+// ✅ Passes stylelint
+.element {
+  font-weight: font-weight('semibold');
+  padding: $spacing-05;
+  color: $text-primary;
+  @include type-style('body-short-01');
+}
+```
+
+### Accessibility Linting with stylelint-a11y
+
+The `@double-great/stylelint-a11y` plugin catches accessibility violations:
+
+- Insufficient color contrast
+- Missing font size units
+- Content property misuse
+- Outline removal without alternatives
+- Media query accessibility issues
+
+**Example:**
+
+```scss
+// ❌ Flagged - removing outline without alternative
+.button:focus {
+  outline: none;  // Accessibility violation
+}
+
+// ✅ Correct - provide visible focus indicator
+.button:focus {
+  outline: 2px solid $focus;
+  outline-offset: 2px;
+}
+```
+
+### Integration with CI/CD
+
+Add linting to your CI pipeline to enforce standards:
+
+```yaml
+# .github/workflows/lint.yml
+name: Lint
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+      - run: pnpm install
+      - run: pnpm run lint:style
+      - run: pnpm run lint:es
+      - run: pnpm run lint:spell
+```
+
+---
+
 ## Accessibility Patterns
 
 ### Skip to Content
@@ -1779,6 +2135,21 @@ This creates a horizontal list with pipe separators between links.
     only
 28. **Dynamic Class Modifiers**: Use template literals to build BEM modifier classes from data: `${block}--${modifier}`
 29. **Pictogram Pattern**: Combine base styles with modifier classes for dynamic icon systems using CSS masks
+30. **Linting is Essential**: Set up Stylelint, ESLint, Prettier, and CSpell to enforce Carbon patterns and catch
+    issues early
+31. **Carbon Token Plugin**: Always use `stylelint-plugin-carbon-tokens` to enforce design token usage instead of
+    hard-coded values
+32. **Logical CSS Properties**: Use `inline-start`/`inline-end`, `block-start`/`block-end` instead of physical
+    directions for RTL support
+33. **Extended Stylelint Config**: Combine Carbon tokens, standard SCSS, accessibility, and logical properties plugins
+    for comprehensive linting
+34. **Auto-fix Workflow**: Run `stylelint --fix` and `prettier --write` to automatically fix many code quality issues
+35. **BEM Regex Pattern**: Use `^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$` to validate BEM naming with hyphens
+36. **Accessibility Linting**: Use `@double-great/stylelint-a11y` to catch accessibility violations in CSS
+37. **Internationalization Readiness**: Logical properties ensure your UI works correctly in right-to-left languages
+    without code changes
+38. **Spell Checking**: Use CSpell across all file types to maintain professional code quality and catch typos in
+    documentation
 
 ---
 
@@ -1792,12 +2163,15 @@ This creates a horizontal list with pipe separators between links.
 
 ---
 
-**Document Version**: 4.0  
-**Last Updated**: Based on Carbon Web Components 2.x and Steps 1-4 Tutorial  
+**Document Version**: 5.0  
+**Last Updated**: Based on Carbon Web Components 2.x and Steps 1-5 Tutorial  
 **Author**: Generated from IBM Carbon Design System Tutorial Implementation
 
 **Version History:**
 
+- **v5.0**: Added comprehensive Linting and Code Quality section (Step 5), documenting Stylelint with Carbon tokens
+  plugin, ESLint, Prettier, CSpell, logical CSS properties for RTL support, accessibility linting, and why linting is
+  critical for Carbon Design System consistency
 - **v4.0**: Added Component Template Pattern (Step 4), BEM naming conventions, innerHTML vs textContent patterns,
   responsive breakpoint patterns, CSS formatting standards
 - **v3.0**: Added API Integration section (Step 3), corrected Grid pattern mistakes, added Pagination and Skeleton
@@ -1826,6 +2200,22 @@ This creates a horizontal list with pipe separators between links.
 - **Template Structure**: Match upstream template structure exactly, including proper BEM naming like `info-card__upper`
   for semantic template sections
 - **Component Files**: Organize page-specific JavaScript (landing.js, repos.js) separately from global (main.js)
+
+**Critical Learnings in v5.0 (Linting):**
+
+- **Carbon Token Enforcement**: Stylelint with `stylelint-plugin-carbon-tokens` catches hard-coded values (e.g.,
+  `font-weight: 600` should be `font-weight('semibold')`)
+- **Logical Properties**: Use `inline-start`/`inline-end` instead of `left`/`right` for RTL language support -
+  stylelint can auto-fix these
+- **Accessibility Linting**: `@double-great/stylelint-a11y` plugin catches accessibility violations like removed
+  outlines without alternatives
+- **BEM Pattern Validation**: Custom regex pattern validates Block__Element--Modifier naming with hyphens:
+  `^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$`
+- **Extended Configuration**: Combining multiple Stylelint plugins provides comprehensive code quality checks
+- **Auto-fixing**: Many linting issues (logical properties, formatting) can be auto-fixed with `--fix` flag
+- **Spelling Matters**: Use CSpell to catch typos early - don't add misspellings to allowed words list, fix them
+- **Linting is for Consistency**: Linting enforces Carbon Design System architectural decisions across teams and
+  ensures internationalization readiness
 
 ```
 
