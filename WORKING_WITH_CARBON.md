@@ -1325,15 +1325,8 @@ pnpm add -D @double-great/stylelint-a11y stylelint-config-standard-scss stylelin
 
 ```json
 {
-  "extends": [
-    "stylelint-plugin-carbon-tokens/config/recommended",
-    "stylelint-config-standard-scss"
-  ],
-  "plugins": [
-    "stylelint-plugin-carbon-tokens",
-    "@double-great/stylelint-a11y",
-    "stylelint-use-logical-spec"
-  ],
+  "extends": ["stylelint-plugin-carbon-tokens/config/recommended", "stylelint-config-standard-scss"],
+  "plugins": ["stylelint-plugin-carbon-tokens", "@double-great/stylelint-a11y", "stylelint-use-logical-spec"],
   "reportDescriptionlessDisables": true,
   "reportInvalidScopeDisables": true,
   "reportNeedlessDisables": true,
@@ -1353,29 +1346,35 @@ pnpm add -D @double-great/stylelint-a11y stylelint-config-standard-scss stylelin
 **Key Features:**
 
 - **Carbon Token Plugin**: Flags hard-coded values that should use Carbon design tokens
+
   ```scss
   // ❌ Wrong
   font-weight: 600;
-  
+
   // ✅ Correct
   font-weight: font-weight('semibold');
   ```
 
-- **BEM Pattern Validation**: Ensures proper Block__Element--Modifier naming
+- **BEM Pattern Validation**: Ensures proper Block\_\_Element--Modifier naming
+
   ```scss
   // ✅ Valid BEM patterns
-  .page-landing__banner { }
-  .info-card__heading { }
-  .theme-selector__icon--dark { }
+  .page-landing__banner {
+  }
+  .info-card__heading {
+  }
+  .theme-selector__icon--dark {
+  }
   ```
 
 - **Logical Properties**: Auto-fixes physical properties to logical ones for RTL support
+
   ```scss
   // Before auto-fix:
   margin-left: $spacing-05;
   padding-right: $spacing-03;
   border-left: 1px solid;
-  
+
   // After auto-fix:
   margin-inline-start: $spacing-05;
   padding-inline-end: $spacing-03;
@@ -1536,48 +1535,50 @@ pnpm run lint:format
 
 **3. Common Issues and Fixes:**
 
-| Issue | Tool | Solution |
-|-------|------|----------|
-| Hard-coded CSS values | Stylelint | Use Carbon tokens: `font-weight('semibold')`, `$spacing-05` |
-| Physical CSS properties | Stylelint | Run `--fix` to convert to logical properties |
-| BEM naming violations | Stylelint | Follow `block__element--modifier` pattern |
-| Code formatting | Prettier | Run `lint:format` to auto-format |
-| Typos | CSpell | Fix typo or add to `words` array if intentional |
+| Issue                   | Tool      | Solution                                                    |
+| ----------------------- | --------- | ----------------------------------------------------------- |
+| Hard-coded CSS values   | Stylelint | Use Carbon tokens: `font-weight('semibold')`, `$spacing-05` |
+| Physical CSS properties | Stylelint | Run `--fix` to convert to logical properties                |
+| BEM naming violations   | Stylelint | Follow `block__element--modifier` pattern                   |
+| Code formatting         | Prettier  | Run `lint:format` to auto-format                            |
+| Typos                   | CSpell    | Fix typo or add to `words` array if intentional             |
 
 ### Why Logical Properties Matter for Carbon
 
 Logical properties enable seamless right-to-left (RTL) language support without code changes:
 
 **Physical Properties (❌ RTL-incompatible):**
+
 ```scss
 .card {
-  margin-left: 16px;    // Always left margin, even in RTL
-  padding-right: 8px;   // Always right padding, even in RTL
+  margin-left: 16px; // Always left margin, even in RTL
+  padding-right: 8px; // Always right padding, even in RTL
   border-left: 1px solid; // Always left border, even in RTL
 }
 ```
 
 **Logical Properties (✅ RTL-compatible):**
+
 ```scss
 .card {
-  margin-inline-start: 16px;    // Left in LTR, right in RTL
-  padding-inline-end: 8px;      // Right in LTR, left in RTL
+  margin-inline-start: 16px; // Left in LTR, right in RTL
+  padding-inline-end: 8px; // Right in LTR, left in RTL
   border-inline-start: 1px solid; // Left in LTR, right in RTL
 }
 ```
 
 **Logical Property Reference:**
 
-| Physical | Logical | Meaning |
-|----------|---------|---------|
-| `left` | `inline-start` | Start of reading direction |
-| `right` | `inline-end` | End of reading direction |
-| `top` | `block-start` | Start of block flow |
-| `bottom` | `block-end` | End of block flow |
-| `width` | `inline-size` | Size along reading direction |
-| `height` | `block-size` | Size along block flow |
-| `margin-left` | `margin-inline-start` | Margin at reading start |
-| `padding-right` | `padding-inline-end` | Padding at reading end |
+| Physical        | Logical               | Meaning                      |
+| --------------- | --------------------- | ---------------------------- |
+| `left`          | `inline-start`        | Start of reading direction   |
+| `right`         | `inline-end`          | End of reading direction     |
+| `top`           | `block-start`         | Start of block flow          |
+| `bottom`        | `block-end`           | End of block flow            |
+| `width`         | `inline-size`         | Size along reading direction |
+| `height`        | `block-size`          | Size along block flow        |
+| `margin-left`   | `margin-inline-start` | Margin at reading start      |
+| `padding-right` | `padding-inline-end`  | Padding at reading end       |
 
 ### Carbon Token Enforcement Examples
 
@@ -1586,10 +1587,10 @@ Stylelint with the Carbon tokens plugin ensures you use design tokens instead of
 ```scss
 // ❌ Flagged by stylelint
 .element {
-  font-weight: 600;           // Use font-weight('semibold')
-  padding: 16px;              // Use $spacing-05
-  color: #161616;             // Use $text-primary
-  font-size: 14px;            // Use type-style mixin
+  font-weight: 600; // Use font-weight('semibold')
+  padding: 16px; // Use $spacing-05
+  color: #161616; // Use $text-primary
+  font-size: 14px; // Use type-style mixin
 }
 
 // ✅ Passes stylelint
@@ -1616,7 +1617,7 @@ The `@double-great/stylelint-a11y` plugin catches accessibility violations:
 ```scss
 // ❌ Flagged - removing outline without alternative
 .button:focus {
-  outline: none;  // Accessibility violation
+  outline: none; // Accessibility violation
 }
 
 // ✅ Correct - provide visible focus indicator
@@ -2135,8 +2136,8 @@ This creates a horizontal list with pipe separators between links.
     only
 28. **Dynamic Class Modifiers**: Use template literals to build BEM modifier classes from data: `${block}--${modifier}`
 29. **Pictogram Pattern**: Combine base styles with modifier classes for dynamic icon systems using CSS masks
-30. **Linting is Essential**: Set up Stylelint, ESLint, Prettier, and CSpell to enforce Carbon patterns and catch
-    issues early
+30. **Linting is Essential**: Set up Stylelint, ESLint, Prettier, and CSpell to enforce Carbon patterns and catch issues
+    early
 31. **Carbon Token Plugin**: Always use `stylelint-plugin-carbon-tokens` to enforce design token usage instead of
     hard-coded values
 32. **Logical CSS Properties**: Use `inline-start`/`inline-end`, `block-start`/`block-end` instead of physical
@@ -2205,17 +2206,17 @@ This creates a horizontal list with pipe separators between links.
 
 - **Carbon Token Enforcement**: Stylelint with `stylelint-plugin-carbon-tokens` catches hard-coded values (e.g.,
   `font-weight: 600` should be `font-weight('semibold')`)
-- **Logical Properties**: Use `inline-start`/`inline-end` instead of `left`/`right` for RTL language support -
-  stylelint can auto-fix these
+- **Logical Properties**: Use `inline-start`/`inline-end` instead of `left`/`right` for RTL language support - stylelint
+  can auto-fix these
 - **Accessibility Linting**: `@double-great/stylelint-a11y` plugin catches accessibility violations like removed
   outlines without alternatives
-- **BEM Pattern Validation**: Custom regex pattern validates Block__Element--Modifier naming with hyphens:
-  `^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$`
+- **BEM Pattern Validation**: Custom regex pattern validates Block**Element--Modifier naming with hyphens:
+  `^[a-z][a-z0-9-]\*(**[a-z0-9-]+)_(--[a-z0-9-]+)_$`
 - **Extended Configuration**: Combining multiple Stylelint plugins provides comprehensive code quality checks
 - **Auto-fixing**: Many linting issues (logical properties, formatting) can be auto-fixed with `--fix` flag
 - **Spelling Matters**: Use CSpell to catch typos early - don't add misspellings to allowed words list, fix them
-- **Linting is for Consistency**: Linting enforces Carbon Design System architectural decisions across teams and
-  ensures internationalization readiness
+- **Linting is for Consistency**: Linting enforces Carbon Design System architectural decisions across teams and ensures
+  internationalization readiness
 
 ```
 

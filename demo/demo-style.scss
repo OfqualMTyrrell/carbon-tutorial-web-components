@@ -1,0 +1,303 @@
+/**
+ * Demo Style Sheet for Grid Layout Showcase
+ * 
+ * Purpose: Demonstrate Carbon grid patterns for developer handoff
+ * Constitution: All styles use Carbon tokens and mixins (no hard-coded values)
+ */
+
+// Import Carbon base styles (REQUIRED - styles must be imported first per constitution)
+@use '@carbon/styles/scss/reset';
+@use '@carbon/styles/scss/theme' as *;
+@use '@carbon/styles/scss/themes';
+@use '@carbon/styles/scss/grid';
+@use '@carbon/styles/scss/spacing' as *;
+@use '@carbon/styles/scss/type' as *;
+@use '@carbon/styles/scss/breakpoint' as *;
+@use '@carbon/styles/scss/motion' as *;
+@use '@carbon/styles/scss/layer' as *;
+
+// Theme setup (matching main project pattern)
+:root {
+  @include theme(themes.$white);
+
+  @media (prefers-color-scheme: dark) {
+    @include theme(themes.$g100);
+  }
+}
+
+.white {
+  @include theme(themes.$white);
+}
+
+.g10 {
+  @include theme(themes.$g10);
+}
+
+.g100 {
+  @include theme(themes.$g100);
+}
+
+:root .compliment {
+  @include theme(themes.$g100);
+
+  @media (prefers-color-scheme: dark) {
+    @include theme(themes.$g10);
+  }
+}
+
+.g10 .compliment {
+  @include theme(themes.$g100);
+}
+
+.g100 .compliment {
+  @include theme(themes.$g10);
+}
+
+// Base layout for demo pages
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.cds--content {
+  padding-block-start: $spacing-11; // Account for fixed header
+}
+
+/**
+ * Base BEM Class Structures
+ * Following project BEM conventions (Block__Element--Modifier)
+ */
+
+// Filter Panel (Page A - left column)
+.filter-panel {
+  //  background-color: $layer-01;
+
+  &__heading {
+    @include type-style('heading-compact-02');
+    margin-block-end: $spacing-05;
+  }
+
+  &__control {
+    margin-block-end: $spacing-04;
+
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+}
+
+// Data Table Demo (Page A - right column)
+.data-table-demo {
+  // Carbon table component provides its own styling
+  // Minimal wrapper styles only
+  inline-size: 100%;
+}
+
+// Content Section (Page B and C)
+.content-section {
+  margin-block-end: $spacing-07;
+
+  &:last-child {
+    margin-block-end: 0;
+  }
+
+  &__heading {
+    @include type-style('heading-03');
+    margin-block-end: $spacing-05;
+  }
+
+  &__body {
+    @include type-style('body-01');
+    margin-block-end: $spacing-05;
+
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  // Pictogram styling following IBM Design Language guidelines
+  // Minimum size: 48px, scales at increments for visual hierarchy
+  // Clearance: 1/4 grid size (12px) applied as margin
+  &__pictogram {
+    margin-block: $spacing-07 $spacing-05; // 32px top, 16px bottom clearance
+    background-color: $text-primary;
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
+
+  // Asymmetric sizing creates visual flow per IBM Design Language
+  // First pictogram: 96px (3x 32px base grid)
+  &:nth-of-type(1) &__pictogram {
+    inline-size: 6rem; // 96px
+    block-size: 6rem;
+  }
+
+  // Second pictogram: 128px (4x 32px base grid) - larger for emphasis
+  &:nth-of-type(4) &__pictogram {
+    inline-size: 8rem; // 128px
+    block-size: 8rem;
+  }
+
+  &__pictogram--globe {
+    mask-image: url('/globe.svg');
+  }
+
+  &__pictogram--advocate {
+    mask-image: url('/advocate.svg');
+  }
+}
+
+// Content Area (Page B - right column)
+.content-area {
+  padding-inline-start: $spacing-06; // Left padding (RTL: right padding)
+}
+
+/**
+ * Responsive Breakpoint Styles
+ * Mobile-first approach: base styles for small, override for larger
+ */
+
+// Small breakpoint (up to 671px) - 4-column grid
+// Base styles above apply to small by default
+
+// Medium breakpoint (672px to 1055px) - 8-column grid
+@include breakpoint-up('md') {
+  .content-area {
+    padding-inline-start: $spacing-07; // Left padding (RTL: right padding)
+  }
+
+  .content-section {
+    margin-block-end: $spacing-08;
+  }
+}
+
+// Large breakpoint (1056px+) - 16-column grid
+@include breakpoint-up('lg') {
+  .content-area {
+    padding-inline-start: $spacing-08; // Left padding (RTL: right padding)
+  }
+
+  .content-section {
+    margin-block-end: $spacing-09;
+
+    &__heading {
+      @include type-style('heading-04');
+    }
+  }
+}
+
+/**
+ * Mobile Navigation Backdrop
+ * Semi-transparent overlay behind mobile navigation
+ * Constitution: Uses Carbon overlay token, hidden by default
+ */
+.mobile-nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: $overlay;
+  z-index: 6000; // Below navigation and button, above content
+
+  // Only visible when navigation is open on mobile
+  &--visible {
+    display: block;
+  }
+}
+
+/**
+ * Mobile Navigation Toggle Button
+ * Hamburger menu button that appears at mobile/tablet breakpoints
+ * Constitution: Uses Carbon spacing tokens, hidden at desktop breakpoint
+ */
+.mobile-nav-toggle {
+  position: fixed; // Fixed to stay above header
+  inset-block-start: $spacing-05; // 16px from top
+  inset-inline-start: $spacing-05; // 16px from left (RTL: right)
+  z-index: 8000; // Above header (cds-header is z-index 8000, so we need to match or exceed)
+  display: block; // Visible on mobile/tablet
+  
+  // Ensure button is visible and clickable
+  pointer-events: auto;
+  
+  // Style the icon inside the button
+  svg {
+    fill: currentColor;
+  }
+
+  // Hide on desktop (lg breakpoint and above)
+  @include breakpoint-up('lg') {
+    display: none;
+  }
+}
+
+/**
+ * T020: Mobile-specific Side Navigation Styles
+ * On mobile/tablet, navigation is hidden by default and slides in from left
+ * Constitution: Uses Carbon motion tokens for animation, layer tokens for z-index
+ */
+#mobile-side-nav {
+  // Mobile/tablet: Fixed positioning with slide animation
+  @include breakpoint-down('md') {
+    position: fixed;
+    inset-block-start: $spacing-09; // Below header (48px = $spacing-09)
+    inset-inline-start: 0;
+    block-size: calc(100vh - #{$spacing-09}); // Full height minus header
+    inline-size: $spacing-13; // 256px = $spacing-13
+    z-index: 7000; // Above backdrop (6000), below button (8000)
+
+    // Hidden by default (off-screen to the left)
+    transform: translateX(-100%);
+
+    // Smooth slide animation using Carbon motion token
+    transition: transform $duration-moderate-02 motion(standard, productive);
+
+    // Enable independent scrolling for long nav lists
+    overflow-y: auto;
+    background-color: $background;
+  }
+
+  // Desktop: Static positioning, always visible
+  @include breakpoint-up('lg') {
+    position: static;
+    transform: none;
+    transition: none;
+  }
+}
+
+/**
+ * T021: Mobile Navigation Open State
+ * Slides navigation into view when open class is added
+ */
+#mobile-side-nav.mobile-nav--open {
+  @include breakpoint-down('md') {
+    transform: translateX(0); // Slide into view
+  }
+}
+
+/**
+ * T022: Backdrop Visible State
+ * Shows backdrop when visible class is added (already implemented above)
+ * (Styling already complete in .mobile-nav-backdrop--visible modifier)
+ */
+
+/**
+ * T023: Mobile Menu Button Positioning
+ * (Already implemented above in .mobile-nav-toggle class)
+ * Button is visible at sm/md breakpoints, hidden at lg+
+ */
+
+/**
+ * T034: Reduced Motion Support
+ * Disable transitions for users with motion sensitivity
+ * Constitution: Accessibility & Quality Gates (WCAG compliance)
+ */
+@media (prefers-reduced-motion: reduce) {
+  #mobile-side-nav {
+    transition: none !important; // Instant show/hide, no animation
+  }
+
+  .mobile-nav-backdrop {
+    transition: none !important; // Instant show/hide, no fade
+  }
+}

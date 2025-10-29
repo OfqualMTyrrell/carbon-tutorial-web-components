@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Panel + Data Table Layout | Carbon Grid Demo</title>
+</head>
+<body class="white">
+  <!-- 
+    Page A: Two-column layout demonstrating filter panel (4 cols) + data table (12 cols)
+    Constitution compliance: Grid classes on content containers, styles imported first in JS
+  -->
+
+  <cds-header aria-label="Grid Layout Showcase">
+    <cds-header-name prefix="">Grid Demo</cds-header-name>
+    <cds-header-nav aria-label="Demo navigation">
+      <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
+      <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
+      <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
+    </cds-header-nav>
+    <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
+  </cds-header>
+
+  <main id="main-content" class="cds--content">
+    <!-- 
+      Grid Container: 16-column grid at lg breakpoint
+      Grid classes are applied to content containers (not wrapper divs)
+    -->
+    <div class="cds--css-grid cds--css-grid--full-width">
+      
+      <!-- Left Column: Filter Panel (4 columns on large) -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Responsive: sm=4 (full), md=8 (full), lg=4 (left column)
+      -->
+      <aside 
+        class="filter-panel cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-4"
+        aria-label="Filter controls">
+        <h2 class="filter-panel__heading">Filters</h2>
+        
+        <!-- 5 sample filter controls using Carbon components (per spec clarification) -->
+        <div class="filter-panel__control">
+          <cds-checkbox >Category A</cds-checkbox>
+        </div>
+        
+        <div class="filter-panel__control">
+          <cds-checkbox>Category B</cds-checkbox>
+        </div>
+        
+        <div class="filter-panel__control">
+          <cds-dropdown  label-text="Status" value="all">
+            <cds-dropdown-item value="all">All</cds-dropdown-item>
+            <cds-dropdown-item value="active">Active</cds-dropdown-item>
+            <cds-dropdown-item value="pending">Pending</cds-dropdown-item>
+          </cds-dropdown>
+        </div>
+        
+        <div class="filter-panel__control">
+          <cds-text-input  label="Date Range" placeholder="MM/DD/YYYY"></cds-text-input>
+        </div>
+        
+        <div class="filter-panel__control">
+          <cds-text-input  label="Search" placeholder="Search..."></cds-text-input>
+        </div>
+      </aside>
+
+      <!-- Right Column: Data Table (12 columns on large) -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Responsive: sm=4 (full), md=8 (full), lg=12 (right column)
+      -->
+      <div 
+        class="data-table-demo cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-12"
+        role="region"
+        aria-label="Data table">
+        
+        <cds-table>
+          <cds-table-head>
+            <cds-table-header-row>
+              <cds-table-header-cell>ID</cds-table-header-cell>
+              <cds-table-header-cell>Name</cds-table-header-cell>
+              <cds-table-header-cell>Status</cds-table-header-cell>
+              <cds-table-header-cell>Date</cds-table-header-cell>
+            </cds-table-header-row>
+          </cds-table-head>
+          <cds-table-body>
+            <!-- 10 sample rows (per spec clarification) -->
+            <cds-table-row>
+              <cds-table-cell>001</cds-table-cell>
+              <cds-table-cell>Project Alpha</cds-table-cell>
+              <cds-table-cell>Active</cds-table-cell>
+              <cds-table-cell>2025-01-15</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>002</cds-table-cell>
+              <cds-table-cell>Project Beta</cds-table-cell>
+              <cds-table-cell>Pending</cds-table-cell>
+              <cds-table-cell>2025-02-10</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>003</cds-table-cell>
+              <cds-table-cell>Project Gamma</cds-table-cell>
+              <cds-table-cell>Complete</cds-table-cell>
+              <cds-table-cell>2025-03-05</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>004</cds-table-cell>
+              <cds-table-cell>Project Delta</cds-table-cell>
+              <cds-table-cell>Active</cds-table-cell>
+              <cds-table-cell>2025-04-20</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>005</cds-table-cell>
+              <cds-table-cell>Project Epsilon</cds-table-cell>
+              <cds-table-cell>Pending</cds-table-cell>
+              <cds-table-cell>2025-05-12</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>006</cds-table-cell>
+              <cds-table-cell>Project Zeta</cds-table-cell>
+              <cds-table-cell>Active</cds-table-cell>
+              <cds-table-cell>2025-06-08</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>007</cds-table-cell>
+              <cds-table-cell>Project Eta</cds-table-cell>
+              <cds-table-cell>Complete</cds-table-cell>
+              <cds-table-cell>2025-07-14</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>008</cds-table-cell>
+              <cds-table-cell>Project Theta</cds-table-cell>
+              <cds-table-cell>Pending</cds-table-cell>
+              <cds-table-cell>2025-08-22</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>009</cds-table-cell>
+              <cds-table-cell>Project Iota</cds-table-cell>
+              <cds-table-cell>Active</cds-table-cell>
+              <cds-table-cell>2025-09-18</cds-table-cell>
+            </cds-table-row>
+            <cds-table-row>
+              <cds-table-cell>010</cds-table-cell>
+              <cds-table-cell>Project Kappa</cds-table-cell>
+              <cds-table-cell>Complete</cds-table-cell>
+              <cds-table-cell>2025-10-29</cds-table-cell>
+            </cds-table-row>
+          </cds-table-body>
+        </cds-table>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- 
+    Import JavaScript module
+    Constitution: Styles imported first in JS module, then components
+  -->
+  <script type="module" src="./page-filter-table.js"></script>
+</body>
+</html>

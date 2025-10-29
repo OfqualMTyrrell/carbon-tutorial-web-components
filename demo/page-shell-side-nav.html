@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI Shell + Side Navigation Layout | Carbon Grid Demo</title>
+</head>
+<body class="white">
+  <!-- 
+    Page B: Two-column layout demonstrating UI Shell side navigation (3 cols) + content area (13 cols)
+    Constitution compliance: Grid classes on content containers, styles imported first in JS
+  -->
+
+  <cds-header aria-label="Grid Layout Showcase">
+    <cds-header-name prefix="">Grid Demo</cds-header-name>
+    <cds-header-nav aria-label="Demo navigation">
+      <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
+      <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
+      <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
+    </cds-header-nav>
+    <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
+  </cds-header>
+
+  <!-- 
+    Mobile Navigation Backdrop
+    Semi-transparent overlay shown when mobile navigation is open
+    Constitution: Theme & Token Fidelity (uses $overlay token in CSS)
+  -->
+  <div class="mobile-nav-backdrop" aria-hidden="true"></div>
+
+  <main id="main-content" class="cds--content">
+    <!-- 
+      Mobile Navigation Toggle Button
+      Visible only on mobile/tablet (sm/md breakpoints), hidden at desktop (lg+)
+      Constitution: Framework-First (use cds-button), Accessibility (ARIA labels)
+    -->
+    
+    <!-- 
+      Grid Container: 16-column grid at lg breakpoint
+      UI Shell import pattern: Import from @carbon/web-components/es/components/ui-shell/index
+      Grid column allocation: 3+13 columns (side nav 3, content 13)
+    -->
+    <div class="cds--css-grid cds--css-grid--full-width">
+
+      <!-- Left Column: Side Navigation (3 columns on large, fixed positioning) -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Responsive: sm=4 (collapsible/stacked), md=8 (collapsible), lg=3 (fixed left column)
+      -->
+      <nav 
+        class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-3"
+        aria-label="Side navigation">
+                  <cds-button id="mobile-nav-toggle" class="mobile-nav-toggle" kind="ghost" size="lg" aria-label="Open navigation menu"
+                    aria-expanded="false" aria-controls="mobile-side-nav">
+                    <!-- Icon will be injected via JavaScript -->
+                  </cds-button>
+        <cds-side-nav id="mobile-side-nav" aria-label="Main navigation">
+          <cds-side-nav-items>
+            <cds-side-nav-link href="#dashboard" active>
+              Dashboard
+            </cds-side-nav-link>
+            <cds-side-nav-link href="#reports">
+              Reports
+            </cds-side-nav-link>
+            <cds-side-nav-link href="#analytics">
+              Analytics
+            </cds-side-nav-link>
+            <cds-side-nav-link href="#settings">
+              Settings
+            </cds-side-nav-link>
+            <cds-side-nav-link href="#help">
+              Help
+            </cds-side-nav-link>
+          </cds-side-nav-items>
+        </cds-side-nav>
+      </nav>
+
+      <!-- Right Column: Content Area (13 columns on large) -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Responsive: sm=4 (full), md=8 (full), lg=13 (right column)
+      -->
+      <div 
+        class="content-area cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        role="region"
+        aria-label="Main content area">
+        
+        <!-- 4 content sections (per spec clarification) -->
+        <section class="content-section">
+          <h2 class="content-section__heading">Welcome to the Dashboard</h2>
+          <p class="content-section__body">
+            This page demonstrates a two-column layout using the Carbon UI Shell with a fixed 
+            side navigation (3 columns) and a main content area (13 columns). The grid adapts 
+            responsively across breakpoints, with the navigation collapsing on smaller screens.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2 class="content-section__heading">Grid Layout Pattern</h2>
+          <p class="content-section__body">
+            The side navigation occupies exactly 3 grid columns on large viewports (lg breakpoint). 
+            The content area takes the remaining 13 columns, creating a balanced application layout. 
+            This pattern is commonly used for data-rich applications and dashboards.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2 class="content-section__heading">Responsive Behavior</h2>
+          <p class="content-section__body">
+            At medium and small breakpoints, the layout adapts to vertical stacking. The Carbon 
+            UI Shell components handle the responsive behavior automatically, with the side 
+            navigation becoming collapsible or fully stacked depending on the viewport size.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2 class="content-section__heading">Implementation Notes</h2>
+          <p class="content-section__body">
+            Grid classes are placed directly on the content containers (no wrapper divs). 
+            The UI Shell components are imported via the index import for optimal code-splitting. 
+            All spacing and typography use Carbon design tokens to maintain visual consistency.
+          </p>
+        </section>
+        
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- 
+    Import JavaScript module
+    Constitution: Styles imported first in JS module, then components
+  -->
+  <script type="module" src="./page-shell-side-nav.js"></script>
+</body>
+</html>
