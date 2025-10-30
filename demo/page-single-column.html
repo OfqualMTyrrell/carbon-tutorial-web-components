@@ -15,23 +15,23 @@
     <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
     <cds-header-name prefix="">Grid Demo</cds-header-name>
     <cds-header-nav aria-label="Demo navigation">
+      <cds-header-nav-item href="./page-single-column.html" is-active="">Single Column</cds-header-nav-item>
       <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
       <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
-      <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
       <cds-header-nav-item href="./page-link-nav.html">Link Nav</cds-header-nav-item>
     </cds-header-nav>
     <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
   </cds-header>
   <cds-side-nav is-not-persistent="" aria-label="Side navigation" collapse-mode="responsive">
     <cds-side-nav-items>
+      <cds-side-nav-link href="./page-single-column.html" active>
+        Single Column
+      </cds-side-nav-link>
       <cds-side-nav-link href="./page-filter-table.html">
         Filter + Table
       </cds-side-nav-link>
       <cds-side-nav-link href="./page-shell-side-nav.html">
         Shell + Side Nav
-      </cds-side-nav-link>
-      <cds-side-nav-link href="./page-single-column.html" active>
-        Single Column
       </cds-side-nav-link>
       <cds-side-nav-link href="./page-link-nav.html">
         Link Nav
@@ -40,19 +40,8 @@
   </cds-side-nav>
 
   <main id="main-content" class="cds--content">
-    <!-- 
-      Grid Container: Single-column layout with 2x Grid hanging alignment
-      Narrow grid: Max-width constraint with centered alignment
-      Hanging pattern: sm=full, md=cols 2-7, lg=cols 3-13, xlg/max=cols 4-13
-      BEM naming: .content-section for each major section
-    -->
+
     <div class="cds--css-grid cds--css-grid--full-width">
-      
-      <!-- Content Section 1: Introduction -->
-      <!-- 
-        Constitution: Grid class on same element as content
-        Full-width: Spans all available columns at each breakpoint
-      -->
       <section 
         class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
         aria-label="Introduction">
@@ -64,11 +53,21 @@
         </p>
       </section>
 
-      <!-- Content Section 2: Subgrid Example -->
-      <!-- 
-        Subgrid usage: Nested grid that inherits parent grid columns
-        Constitution: Demonstrates template placement pattern
-      -->
+      <section class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        aria-label="Responsive typography">
+        <h2 class="content-section__heading">Responsive Typography Rhythm</h2>
+        <p class="content-section__body">
+          All typography on this page uses Carbon design tokens to maintain consistent rhythm
+          across breakpoints. Headings scale automatically using Carbon's type styles, and
+          spacing between sections uses Carbon's spacing tokens for predictable vertical flow.
+        </p>
+        <p class="content-section__body">
+          The mobile-first approach means small viewport styles serve as the base, with progressive
+          enhancements at medium and large breakpoints. This ensures optimal readability on all
+          device sizes without custom media queries.
+        </p>
+      </section>
+
       <section 
         class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
         aria-label="Subgrid example">
@@ -78,8 +77,6 @@
           that maintains alignment with the parent grid structure while allowing independent 
           column allocation for child elements.
         </p>
-        
-        <!-- Subgrid example -->
         <div class="cds--subgrid cds--subgrid--full-wide">
           <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-4">
             <p class="content-section__body">
@@ -96,24 +93,6 @@
         </div>
       </section>
 
-      <!-- Content Section 3: Responsive Typography -->
-      <section 
-        class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
-        aria-label="Responsive typography">
-        <h2 class="content-section__heading">Responsive Typography Rhythm</h2>
-        <p class="content-section__body">
-          All typography on this page uses Carbon design tokens to maintain consistent rhythm 
-          across breakpoints. Headings scale automatically using Carbon's type styles, and 
-          spacing between sections uses Carbon's spacing tokens for predictable vertical flow.
-        </p>
-        <p class="content-section__body">
-          The mobile-first approach means small viewport styles serve as the base, with progressive 
-          enhancements at medium and large breakpoints. This ensures optimal readability on all 
-          device sizes without custom media queries.
-        </p>
-      </section>
-
-      <!-- Content Section 4: Implementation Notes -->
       <section 
         class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
         aria-label="Implementation notes">
@@ -128,7 +107,7 @@
             <div class="content-section__pictogram content-section__pictogram--advocate" aria-label="Best practices pictogram">
             </div>
             </div>
-            <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
+            <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-4">
             <p class="content-section__body">
               <strong>BEM Naming:</strong> Custom classes follow the Block__Element pattern
               (e.g., .content-section, .content-section__heading) to distinguish them from Carbon's
