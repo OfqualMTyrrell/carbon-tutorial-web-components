@@ -14,7 +14,7 @@
 
   <cds-header aria-label="Grid Layout Showcase">
     <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
-    <cds-header-name prefix="">Grid Demo</cds-header-name>
+    <cds-header-name prefix="Ofqual" href="/index.html">Layout Demo</cds-header-name>
     <cds-header-nav aria-label="Demo navigation">
         <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
         <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
@@ -73,7 +73,11 @@
     <div class="content-area cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-5 cds--lg:col-span-9 cds--xlg:col-span-8 cds--max:col-span-8"
         role="region" aria-label="Main content area">
         <section class="content-section">
-                <h2 class="content-section__heading">Welcome to the cds-link navigation pattern</h2>
+            <h2 class="content-area__heading">Overview page</h2>
+            </section>
+            
+            <section class="content-section">
+                <h3 class="content-section__heading">Welcome to the cds-link navigation pattern</h3>
             <p class="content-section__body">
                 In his dialogue Hippias Major, Plato has Socrates debate the essence of beauty, exploring whether it is
                 something simple
@@ -88,7 +92,7 @@
         </section>
         
         <section class="content-section">
-            <h2 class="content-section__heading">2x Grid Two-Column Pattern</h2>
+            <h3 class="content-section__heading">2x Grid Two-Column Pattern</h3>
             <p class="content-section__body">
                 In the Tao Te Ching, Lao Tzu presents the profound beauty of simplicity as a return to one's source or true
                 nature. The
@@ -103,7 +107,7 @@
         </section>
         
         <section class="content-section">
-            <h2 class="content-section__heading">Responsive Behavior</h2>
+            <h3 class="content-section__heading">Responsive Behavior</h3>
             <p class="content-section__body">
                 In his account of living simply in a cabin in the woods, Thoreau critiques the excessive detail and complexity
                 of modern
@@ -114,7 +118,7 @@
         </section>
         
         <section class="content-section">
-            <h2 class="content-section__heading">Implementation Notes</h2>
+            <h3 class="content-section__heading">Implementation Notes</h3>
             <p class="content-section__body">
                 In contrast to writing on simplicity, Heller's satirical novel Catch-22 showcases the absurd beauty of pure,
                 unfettered
@@ -123,44 +127,7 @@
                 consistency that perfectly encapsulates the chaotic complexity of wartime absurdity.
             </p>
         </section>
-
-        <section class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
-            aria-label="Implementation notes">
-            <h2 class="content-section__heading">Key Takeaways</h2>
-            <div class="cds--subgrid cds--subgrid--full-wide">
-                <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
-                    <p class="content-section__body">
-                        <strong>Grid Classes:</strong> All content sections have grid classes applied directly
-                        to the section element (no wrapper divs). This maintains clean DOM structure and
-                        prevents grid-breaking nesting.
-                    </p>
-                    <div class="content-section__pictogram content-section__pictogram--advocate"
-                        aria-label="Best practices pictogram">
-                    </div>
-                </div>
-                <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-4">
-                    <p class="content-section__body">
-                        <strong>BEM Naming:</strong> Custom classes follow the Block__Element pattern
-                        (e.g., .content-section, .content-section__heading) to distinguish them from Carbon's
-                        component classes and maintain predictable CSS specificity.
-                    </p>
-                    <div class="content-section__pictogram content-section__pictogram--globe"
-                        aria-label="Grid layout pictogram"></div>
-                </div>
-                <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
-                    <p class="content-section__body">
-                        <strong>Image Dimensions:</strong> All images include explicit width and height attributes
-                        to prevent layout shift during page load. This is a constitution requirement for
-                        performance and accessibility.
-                    </p>
-                    <div class="content-section__pictogram content-section__pictogram--advocate"
-                        aria-label="Best practices pictogram">
-                    </div>
-                </div>
-            </div>
-        </section>
-      </div>
-      
+    </div>
     </div>
   </main>
 
