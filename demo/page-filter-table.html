@@ -12,14 +12,32 @@
   -->
 
   <cds-header aria-label="Grid Layout Showcase">
+    <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
     <cds-header-name prefix="">Grid Demo</cds-header-name>
     <cds-header-nav aria-label="Demo navigation">
       <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
       <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
       <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
+      <cds-header-nav-item href="./page-link-nav.html">Link Nav</cds-header-nav-item>
     </cds-header-nav>
     <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
   </cds-header>
+  <cds-side-nav is-not-persistent="" aria-label="Side navigation" collapse-mode="responsive">
+    <cds-side-nav-items>
+      <cds-side-nav-link href="./page-filter-table.html" active>
+        Filter + Table
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-shell-side-nav.html">
+        Shell + Side Nav
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-single-column.html">
+        Single Column
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-link-nav.html">
+        Link Nav
+      </cds-side-nav-link>
+    </cds-side-nav-items>
+  </cds-side-nav>
 
   <main id="main-content" class="cds--content">
     <!-- 
@@ -34,7 +52,7 @@
         Responsive: sm=4 (full), md=8 (full), lg=4 (left column)
       -->
       <aside 
-        class="filter-panel cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-4"
+        class="filter-panel cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-4 cds--xlg:col-span-4 cds--max:col-span-4"
         aria-label="Filter controls">
         <h2 class="filter-panel__heading">Filters</h2>
         
@@ -70,11 +88,20 @@
         Responsive: sm=4 (full), md=8 (full), lg=12 (right column)
       -->
       <div 
-        class="data-table-demo cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-12"
+        class="data-table-demo cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-12 cds--xlg:col-span-12 cds--max:col-span-12"
         role="region"
         aria-label="Data table">
         
         <cds-table>
+          <cds-table-header-title slot="title">DataTable</cds-table-header-title>
+          <cds-table-header-description slot="description">With toolbar</cds-table-header-description>
+          
+          <cds-table-toolbar slot="toolbar">
+            <cds-table-toolbar-content>
+              <cds-table-toolbar-search persistent="" placeholder="Search table"></cds-table-toolbar-search>
+              <cds-button>Primary button</cds-button>
+            </cds-table-toolbar-content>
+          </cds-table-toolbar>
           <cds-table-head>
             <cds-table-header-row>
               <cds-table-header-cell>ID</cds-table-header-cell>

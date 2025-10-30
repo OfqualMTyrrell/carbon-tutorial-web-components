@@ -60,7 +60,7 @@ body {
 }
 
 .cds--content {
-  padding-block-start: $spacing-11; // Account for fixed header
+  padding-block-start: $spacing-10; // Account for fixed header
 }
 
 /**
@@ -84,21 +84,48 @@ body {
       margin-block-end: 0;
     }
   }
+    @include breakpoint-down('md') {
+    margin-block-end: $spacing-07; // 2rem / 32px separation from content below
+  }
 }
 
-// Data Table Demo (Page A - right column)
-.data-table-demo {
-  // Carbon table component provides its own styling
-  // Minimal wrapper styles only
-  inline-size: 100%;
+
+// Link Navigation Pattern (Page: Link Nav)
+.link-nav {
+  padding-block-start: $spacing-05;
+  padding-inline-end: $spacing-06;
+
+  &__item {
+    position: relative;
+    padding-inline-start: $spacing-05; // Space for indicator
+  }
+
+  &__indicator {
+    display: none;
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: 0;
+    inline-size: 3px;
+    background-color: $link-primary;
+  }
+
+  // Active state indicator (vertical line)
+  &__item--active &__indicator {
+    display: block;
+  }
+
+  // Add spacing when stacked on small/medium screens
+  @include breakpoint-down('md') {
+    margin-block-end: $spacing-07; // 2rem / 32px separation from content below
+  }
 }
 
 // Content Section (Page B and C)
 .content-section {
-  margin-block-end: $spacing-07;
+  padding-block-end: $spacing-07; // 2rem / 32px bottom padding
 
   &:last-child {
-    margin-block-end: 0;
+    padding-block-end: 0;
   }
 
   &__heading {
@@ -168,7 +195,7 @@ body {
   }
 
   .content-section {
-    margin-block-end: $spacing-08;
+    padding-block-end: $spacing-08;
   }
 }
 
@@ -179,7 +206,7 @@ body {
   }
 
   .content-section {
-    margin-block-end: $spacing-09;
+    padding-block-end: $spacing-09;
 
     &__heading {
       @include type-style('heading-04');
@@ -187,117 +214,6 @@ body {
   }
 }
 
-/**
- * Mobile Navigation Backdrop
- * Semi-transparent overlay behind mobile navigation
- * Constitution: Uses Carbon overlay token, hidden by default
- */
-.mobile-nav-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: $overlay;
-  z-index: 6000; // Below navigation and button, above content
 
-  // Only visible when navigation is open on mobile
-  &--visible {
-    display: block;
-  }
-}
 
-/**
- * Mobile Navigation Toggle Button
- * Hamburger menu button that appears at mobile/tablet breakpoints
- * Constitution: Uses Carbon spacing tokens, hidden at desktop breakpoint
- */
-.mobile-nav-toggle {
-  position: fixed; // Fixed to stay above header
-  inset-block-start: $spacing-05; // 16px from top
-  inset-inline-start: $spacing-05; // 16px from left (RTL: right)
-  z-index: 8000; // Above header (cds-header is z-index 8000, so we need to match or exceed)
-  display: block; // Visible on mobile/tablet
-  
-  // Ensure button is visible and clickable
-  pointer-events: auto;
-  
-  // Style the icon inside the button
-  svg {
-    fill: currentColor;
-  }
 
-  // Hide on desktop (lg breakpoint and above)
-  @include breakpoint-up('lg') {
-    display: none;
-  }
-}
-
-/**
- * T020: Mobile-specific Side Navigation Styles
- * On mobile/tablet, navigation is hidden by default and slides in from left
- * Constitution: Uses Carbon motion tokens for animation, layer tokens for z-index
- */
-#mobile-side-nav {
-  // Mobile/tablet: Fixed positioning with slide animation
-  @include breakpoint-down('md') {
-    position: fixed;
-    inset-block-start: $spacing-09; // Below header (48px = $spacing-09)
-    inset-inline-start: 0;
-    block-size: calc(100vh - #{$spacing-09}); // Full height minus header
-    inline-size: $spacing-13; // 256px = $spacing-13
-    z-index: 7000; // Above backdrop (6000), below button (8000)
-
-    // Hidden by default (off-screen to the left)
-    transform: translateX(-100%);
-
-    // Smooth slide animation using Carbon motion token
-    transition: transform $duration-moderate-02 motion(standard, productive);
-
-    // Enable independent scrolling for long nav lists
-    overflow-y: auto;
-    background-color: $background;
-  }
-
-  // Desktop: Static positioning, always visible
-  @include breakpoint-up('lg') {
-    position: static;
-    transform: none;
-    transition: none;
-  }
-}
-
-/**
- * T021: Mobile Navigation Open State
- * Slides navigation into view when open class is added
- */
-#mobile-side-nav.mobile-nav--open {
-  @include breakpoint-down('md') {
-    transform: translateX(0); // Slide into view
-  }
-}
-
-/**
- * T022: Backdrop Visible State
- * Shows backdrop when visible class is added (already implemented above)
- * (Styling already complete in .mobile-nav-backdrop--visible modifier)
- */
-
-/**
- * T023: Mobile Menu Button Positioning
- * (Already implemented above in .mobile-nav-toggle class)
- * Button is visible at sm/md breakpoints, hidden at lg+
- */
-
-/**
- * T034: Reduced Motion Support
- * Disable transitions for users with motion sensitivity
- * Constitution: Accessibility & Quality Gates (WCAG compliance)
- */
-@media (prefers-reduced-motion: reduce) {
-  #mobile-side-nav {
-    transition: none !important; // Instant show/hide, no animation
-  }
-
-  .mobile-nav-backdrop {
-    transition: none !important; // Instant show/hide, no fade
-  }
-}
