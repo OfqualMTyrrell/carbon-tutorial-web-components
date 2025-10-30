@@ -18,25 +18,23 @@ let firstRowIndex = 0; // Index of first row on current page
 // === Table Population ===
 // Update table rows based on current page and page size
 const updateTable = () => {
-  const tableRowTemplate = document.querySelector(
-    'template#template--table-row',
-  );
+  const tableRowTemplate = document.querySelector('template#template--table-row');
   const tableBody = document.querySelector('cds-table-body');
-  
+
   if (tableBody && tableRowTemplate) {
     tableBody.innerHTML = '';
-    
+
     // Filter data for current page and populate rows
     data
       .filter((v, i) => i >= firstRowIndex && i < firstRowIndex + pageSize)
       .forEach((row) => {
         let newRow = tableRowTemplate.content.cloneNode(true);
         const keys = Object.keys(row);
-        
+
         // Populate each cell based on key attribute
         keys.forEach((key) => {
           const keyEl = newRow.querySelector(`[key="${key}"]`);
-          
+
           if (key === 'links') {
             // Special handling for links: Create GitHub and Homepage links
             keyEl.innerHTML = `<ul class="link-list">
@@ -51,7 +49,7 @@ const updateTable = () => {
             keyEl.innerHTML = row[key];
           }
         });
-        
+
         tableBody.appendChild(newRow);
       });
   }
@@ -65,10 +63,10 @@ const replaceSkeleton = () => {
 
   if (tableSkeleton && tableTemplate) {
     tableSkeleton.replaceWith(tableTemplate.content.cloneNode(true));
-    
+
     // Populate table with data
     updateTable();
-    
+
     // Setup pagination
     updatePagination();
   }
@@ -127,13 +125,7 @@ const updatePagination = () => {
 
   // Defer event listener attachment until DOM is updated
   setTimeout(() => {
-    paginationEl.addEventListener(
-      'cds-pagination-changed-current',
-      handlePageChangeCurrent,
-    );
-    paginationEl.addEventListener(
-      'cds-page-sizes-select-changed',
-      handlePageSizeChange,
-    );
+    paginationEl.addEventListener('cds-pagination-changed-current', handlePageChangeCurrent);
+    paginationEl.addEventListener('cds-page-sizes-select-changed', handlePageSizeChange);
   }, 10);
 };

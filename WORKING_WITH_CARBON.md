@@ -1,8 +1,11 @@
 # Working with IBM Carbon Design System Web Components
 
-This guide documents the patterns, practices, and conventions learned from implementing the IBM Carbon Design System Web Components Framework. This is intended to help developers and LLM agents understand how to work with Carbon Web Components as designed by IBM.
+This guide documents the patterns, practices, and conventions learned from implementing the IBM Carbon Design System Web
+Components Framework. This is intended to help developers and LLM agents understand how to work with Carbon Web
+Components as designed by IBM.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Installation & Setup](#installation--setup)
 - [Theme System](#theme-system)
@@ -19,6 +22,7 @@ This guide documents the patterns, practices, and conventions learned from imple
 - [HTML Templates Pattern](#html-templates-pattern)
 - [Component Template Pattern](#component-template-pattern)
 - [BEM Naming Conventions](#bem-naming-conventions)
+- [Linting and Code Quality](#linting-and-code-quality)
 - [Accessibility Patterns](#accessibility-patterns)
 - [Best Practices](#best-practices)
 
@@ -26,9 +30,11 @@ This guide documents the patterns, practices, and conventions learned from imple
 
 ## Overview
 
-Carbon Web Components are standards-based custom elements that can be used in any modern browser with any JavaScript library or framework, or with no framework at all (Vanilla JS/HTML).
+Carbon Web Components are standards-based custom elements that can be used in any modern browser with any JavaScript
+library or framework, or with no framework at all (Vanilla JS/HTML).
 
 **Key Philosophy:**
+
 - Web Components behave like native HTML elements
 - No framework required (though they work with React, Vue, Angular, etc.)
 - Direct DOM manipulation and event handling
@@ -52,6 +58,7 @@ Carbon Web Components are standards-based custom elements that can be used in an
 ```
 
 Install using:
+
 ```bash
 pnpm add @carbon/web-components @carbon/styles sass
 pnpm add @carbon/icons  # For icon support
@@ -77,6 +84,7 @@ project/
 Carbon uses SCSS mixins to apply themes. Themes control colors, spacing, and other design tokens.
 
 #### Available Themes
+
 - **white** - Pure white background
 - **g10** (Light theme) - Light background
 - **g90** (Gray 90) - Dark UI on light background
@@ -117,7 +125,8 @@ bodyEl.classList.remove('g10', 'g100');
 
 ### Complementary Theming Pattern
 
-Carbon supports "compliment" theming for UI elements that should contrast with the main theme (e.g., dark header on light page).
+Carbon supports "compliment" theming for UI elements that should contrast with the main theme (e.g., dark header on
+light page).
 
 ```scss
 // Compliment theme reverses the theme
@@ -139,6 +148,7 @@ Carbon supports "compliment" theming for UI elements that should contrast with t
 ```
 
 Usage in HTML:
+
 ```html
 <cds-header class="compliment">
   <!-- Header will have opposite theme of body -->
@@ -160,50 +170,35 @@ The UI Shell is Carbon's standardized application frame consisting of header, na
   <cds-header class="compliment">
     <!-- Skip to content MUST be first child -->
     <cds-skip-to-content href="#main-content"></cds-skip-to-content>
-    
+
     <!-- Hamburger menu for responsive navigation -->
-    <cds-header-menu-button
-      button-label-active="Close menu"
-      button-label-inactive="Open menu">
+    <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu">
     </cds-header-menu-button>
-    
+
     <!-- Brand/Product name -->
-    <cds-header-name href="./" prefix="IBM">
-      Product Name
-    </cds-header-name>
-    
+    <cds-header-name href="./" prefix="IBM"> Product Name </cds-header-name>
+
     <!-- Desktop navigation -->
     <cds-header-nav menu-bar-label="Navigation Label">
-      <cds-header-nav-item href="./page.html">
-        Page Name
-      </cds-header-nav-item>
+      <cds-header-nav-item href="./page.html"> Page Name </cds-header-nav-item>
     </cds-header-nav>
-    
+
     <!-- Mobile navigation (appears in sidebar) -->
-    <cds-side-nav
-      is-not-persistent
-      aria-label="Side navigation"
-      collapse-mode="${SIDE_NAV_COLLAPSE_MODE.RESPONSIVE}">
+    <cds-side-nav is-not-persistent aria-label="Side navigation" collapse-mode="${SIDE_NAV_COLLAPSE_MODE.RESPONSIVE}">
       <cds-side-nav-items>
-        <cds-side-nav-link href="./page.html">
-          Page Name
-        </cds-side-nav-link>
+        <cds-side-nav-link href="./page.html"> Page Name </cds-side-nav-link>
       </cds-side-nav-items>
     </cds-side-nav>
-    
+
     <!-- Global actions and panels -->
     <div class="cds--header__global">
-      <cds-header-global-action
-        aria-label="Action Name"
-        panel-id="panel-id">
+      <cds-header-global-action aria-label="Action Name" panel-id="panel-id">
         <div slot="icon"><!-- Icon content --></div>
       </cds-header-global-action>
     </div>
-    
+
     <!-- Panels (slide-out from right) -->
-    <cds-header-panel id="panel-id" aria-label="Panel Label">
-      Panel content
-    </cds-header-panel>
+    <cds-header-panel id="panel-id" aria-label="Panel Label"> Panel content </cds-header-panel>
   </cds-header>
 </header>
 
@@ -219,6 +214,7 @@ import '@carbon/web-components/es/components/ui-shell/index';
 ```
 
 This single import provides:
+
 - `cds-header`
 - `cds-header-name`
 - `cds-header-nav`
@@ -238,7 +234,7 @@ Panels should close other panels when opened:
 const handleGlobalActionClick = (ev) => {
   const targetPanelId = ev.currentTarget.getAttribute('panel-id');
   const panels = document.querySelectorAll('cds-header-panel');
-  
+
   // Close all other panels
   panels.forEach((panel) => {
     if (panel.id !== targetPanelId) {
@@ -265,13 +261,14 @@ Carbon provides spacing tokens through SCSS:
 @use '@carbon/styles/scss/spacing' as *;
 
 .container {
-  padding: $spacing-05;  // 1rem / 16px
+  padding: $spacing-05; // 1rem / 16px
   gap: $spacing-05;
   margin-top: $spacing-09; // 3rem / 48px
 }
 ```
 
 ### Common Spacing Scale
+
 - `$spacing-01`: 0.125rem (2px)
 - `$spacing-02`: 0.25rem (4px)
 - `$spacing-03`: 0.5rem (8px)
@@ -288,13 +285,14 @@ Carbon provides spacing tokens through SCSS:
 ```scss
 .app {
   display: grid;
-  grid-template-rows: $spacing-09 1fr;  // Header height + flexible content
+  grid-template-rows: $spacing-09 1fr; // Header height + flexible content
   height: 100vh;
-  overflow: hidden;  // Let main handle scrolling
+  overflow: hidden; // Let main handle scrolling
 }
 ```
 
 This creates:
+
 - Fixed header height (48px)
 - Flexible content area
 - Proper scroll behavior
@@ -303,25 +301,20 @@ This creates:
 
 ## CSS Grid Deep Dive
 
-Carbon's CSS Grid system is a 16-column grid implemented using native CSS Grid (not flexbox). **Important:** The Carbon grid does not exist as web components due to shadow DOM traversal difficulties.
+Carbon's CSS Grid system is a 16-column grid implemented using native CSS Grid (not flexbox). **Important:** The Carbon
+grid does not exist as web components due to shadow DOM traversal difficulties.
 
 ### Grid Classes Hierarchy
 
 ```html
 <!-- Root grid container -->
 <div class="cds--css-grid cds--css-grid--full-width">
-  
   <!-- Grid columns -->
   <div class="cds--css-grid-column cds--col-span-100">
-    
     <!-- Subgrid (nested grid) -->
     <div class="cds--subgrid cds--subgrid--full-wide">
-      
       <!-- Columns within subgrid -->
-      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-16">
-        Content
-      </div>
-      
+      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-16">Content</div>
     </div>
   </div>
 </div>
@@ -332,14 +325,17 @@ Carbon's CSS Grid system is a 16-column grid implemented using native CSS Grid (
 Carbon uses a 16-column grid with responsive breakpoints:
 
 **Breakpoint Classes:**
+
 - `cds--sm:col-span-N` - Small screens (4-column grid)
 - `cds--md:col-span-N` - Medium screens (8-column grid)
 - `cds--lg:col-span-N` - Large screens (16-column grid)
 
 **Column Starting Position:**
+
 - `cds--lg:col-start-N` - Start at column N (1-16)
 
 **Full-width Column:**
+
 - `cds--col-span-100` - Spans 100% of grid (all columns)
 
 ### Grid Implementation Example
@@ -347,57 +343,56 @@ Carbon uses a 16-column grid with responsive breakpoints:
 ```html
 <!-- Landing page with 3 rows -->
 <div class="page page-landing cds--css-grid cds--css-grid--full-width">
-  
   <!-- Row 1: Banner (full width) -->
   <div class="page-landing__banner cds--css-grid-column cds--col-span-100">
     <cds-breadcrumb>...</cds-breadcrumb>
     <h1>Title</h1>
   </div>
-  
+
   <!-- Row 2: Content with subgrid -->
   <div class="page-landing__r2 cds--css-grid-column cds--col-span-100">
     <cds-tabs>...</cds-tabs>
-    
+
     <div class="cds--subgrid cds--subgrid--full-wide">
       <!-- 7 columns on large screens, starts at column 1 -->
       <!-- CRITICAL: Grid column classes AND content classes on SAME div -->
-      <div class="page-landing__tab-content cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-7">
+      <div
+        class="page-landing__tab-content cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-7">
         <h3 class="page-landing__subheading">What is Carbon?</h3>
         <p class="page-landing__p">Content text...</p>
         <cds-button>Learn more</cds-button>
       </div>
-      
+
       <!-- 8 columns on large screens, starts at column 9 -->
       <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-8 cds--lg:col-start-9">
         <img class="page-landing__illo" src="./tab-illo.png" alt="Carbon illustration" width="640" height="498" />
       </div>
     </div>
   </div>
-  
+
   <!-- Row 3: Principles with offset columns -->
   <div class="page-landing__r3 cds--css-grid-column cds--col-span-100">
     <div class="cds--subgrid cds--subgrid--full-wide">
-      
       <!-- Label: 4 cols on lg, 2 cols on md -->
-      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-2 cds--lg:col-span-4">
-        The principles
-      </div>
-      
+      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-2 cds--lg:col-span-4">The principles</div>
+
       <!-- Title 1: starts at column 3 on md, column 5 on lg -->
-      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-5">
+      <div
+        class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-5">
         Carbon is open
       </div>
-      
+
       <!-- Title 2: starts at column 3 on md, column 9 on lg -->
-      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-9">
+      <div
+        class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-9">
         Carbon is modular
       </div>
-      
+
       <!-- Title 3: starts at column 3 on md, column 13 on lg -->
-      <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-13">
+      <div
+        class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-6 cds--md:col-start-3 cds--lg:col-span-4 cds--lg:col-start-13">
         Carbon is consistent
       </div>
-      
     </div>
   </div>
 </div>
@@ -405,11 +400,14 @@ Carbon uses a 16-column grid with responsive breakpoints:
 
 ### Grid Pattern Rules
 
-1. **Grid column classes belong on content containers** - Do NOT create wrapper divs. Place `cds--css-grid-column` classes on the SAME element as your content wrapper classes (e.g., `page-landing__tab-content`). This is critical for proper grid layout.
+1. **Grid column classes belong on content containers** - Do NOT create wrapper divs. Place `cds--css-grid-column`
+   classes on the SAME element as your content wrapper classes (e.g., `page-landing__tab-content`). This is critical for
+   proper grid layout.
 
 2. **Subgrids inherit parent columns** - Use `cds--subgrid--full-wide` to span full width of parent column
 
-3. **Always include image dimensions** - Specify `width` and `height` attributes on `<img>` tags for performance (prevents layout shift) and accessibility
+3. **Always include image dimensions** - Specify `width` and `height` attributes on `<img>` tags for performance
+   (prevents layout shift) and accessibility
 
 4. **Column math** - On large screens: 7 cols + 8 cols = 15 cols (leaving 1 for gutter spacing)
 
@@ -420,27 +418,27 @@ Carbon uses a 16-column grid with responsive breakpoints:
 ### Common Grid Mistakes to Avoid
 
 ❌ **WRONG - Extra wrapper div:**
+
 ```html
 <div class="cds--css-grid-column cds--lg:col-span-7">
-  <div class="page-landing__tab-content">
-    Content
-  </div>
+  <div class="page-landing__tab-content">Content</div>
 </div>
 ```
 
 ✅ **CORRECT - Classes on same element:**
+
 ```html
-<div class="page-landing__tab-content cds--css-grid-column cds--lg:col-span-7">
-  Content
-</div>
+<div class="page-landing__tab-content cds--css-grid-column cds--lg:col-span-7">Content</div>
 ```
 
 ❌ **WRONG - Missing image dimensions:**
+
 ```html
 <img src="./image.png" alt="Description" />
 ```
 
 ✅ **CORRECT - Include width/height:**
+
 ```html
 <img src="./image.png" alt="Description" width="640" height="498" />
 ```
@@ -501,7 +499,7 @@ Carbon Tabs use a target-based system to show/hide tab panels.
 ```scss
 .page-landing__tabs {
   position: sticky;
-  top: $spacing-09;  // Height of header
+  top: $spacing-09; // Height of header
   z-index: 1;
 }
 ```
@@ -519,13 +517,11 @@ Carbon provides an expandable data table for displaying tabular data.
 ```html
 <cds-table expandable>
   <!-- Table header with title and description -->
-  <cds-table-header-title slot="title">
-    Carbon Repositories
-  </cds-table-header-title>
+  <cds-table-header-title slot="title"> Carbon Repositories </cds-table-header-title>
   <cds-table-header-description slot="description">
     A collection of public Carbon repositories.
   </cds-table-header-description>
-  
+
   <!-- Table header row -->
   <cds-table-head>
     <cds-table-header-row>
@@ -537,10 +533,9 @@ Carbon provides an expandable data table for displaying tabular data.
       <cds-table-header-cell>Links</cds-table-header-cell>
     </cds-table-header-row>
   </cds-table-head>
-  
+
   <!-- Table body (populated by JavaScript) -->
-  <cds-table-body>
-  </cds-table-body>
+  <cds-table-body> </cds-table-body>
 </cds-table>
 ```
 
@@ -556,6 +551,7 @@ import '@carbon/web-components/es/components/data-table/index.js';
 ```
 
 Include in HTML:
+
 ```html
 <script type="module" src="/repos.js"></script>
 ```
@@ -569,9 +565,7 @@ Include in HTML:
   <cds-table-cell>Cell content</cds-table-cell>
   <!-- More cells -->
 </cds-table-row>
-<cds-table-expanded-row>
-  Expanded content shown when row is expanded
-</cds-table-expanded-row>
+<cds-table-expanded-row> Expanded content shown when row is expanded </cds-table-expanded-row>
 ```
 
 Each `cds-table-row` can be followed by a `cds-table-expanded-row` for expandable content.
@@ -595,9 +589,7 @@ Carbon tables work seamlessly with native HTML `<template>` elements for dynamic
     <cds-table-cell key="stars">0</cds-table-cell>
     <cds-table-cell key="links">Links</cds-table-cell>
   </cds-table-row>
-  <cds-table-expanded-row key="description">
-    Description
-  </cds-table-expanded-row>
+  <cds-table-expanded-row key="description"> Description </cds-table-expanded-row>
 </template>
 ```
 
@@ -627,10 +619,10 @@ const template = document.querySelector('#template--table-row');
 data.forEach((item) => {
   // Clone template content
   const clone = template.content.cloneNode(true);
-  
+
   // Find all cells with key attributes
   const cells = clone.querySelectorAll('cds-table-cell, cds-table-expanded-row');
-  
+
   // Populate cells based on key
   cells.forEach((cell) => {
     const key = cell.getAttribute('key');
@@ -638,7 +630,7 @@ data.forEach((item) => {
       cell.textContent = item[key];
     }
   });
-  
+
   // Append to table body
   tableBody.appendChild(clone);
 });
@@ -672,23 +664,24 @@ This keeps templates out of the visible DOM but accessible to JavaScript.
 
 ## Component Template Pattern
 
-Beyond data tables, HTML templates are a powerful pattern for building reusable, data-driven components in Carbon applications. Step 4 demonstrates this with the InfoCard component pattern.
+Beyond data tables, HTML templates are a powerful pattern for building reusable, data-driven components in Carbon
+applications. Step 4 demonstrates this with the InfoCard component pattern.
 
 ### Component Template Architecture
 
-Templates define component structure once and clone it multiple times with different data - a core pattern in modern web development.
+Templates define component structure once and clone it multiple times with different data - a core pattern in modern web
+development.
 
 #### Template Definition Pattern
 
 ```html
 <!-- Place after </body> tag -->
 <template id="template--info-card">
-  <div class="info-card cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-5 cds--xlg:col-span-4 cds--css-grid-column">
-    <div class="info-card__uppder">
+  <div
+    class="info-card cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-5 cds--xlg:col-span-4 cds--css-grid-column">
+    <div class="info-card__upper">
       <h4 class="info-card__heading">Carbon is <strong class="info-card__heading--strong">thing goes here</strong></h4>
-      <p class="info-card__body">
-        Body goes here
-      </p>
+      <p class="info-card__body">Body goes here</p>
     </div>
     <div class="info-card__pictogram"></div>
   </div>
@@ -696,6 +689,7 @@ Templates define component structure once and clone it multiple times with diffe
 ```
 
 **Key Points:**
+
 1. **Template ID**: Use descriptive IDs with `template--` prefix for clarity
 2. **Grid Classes in Template**: Include responsive grid column classes in the template itself
 3. **Placeholder Content**: Use descriptive placeholders that indicate what will be replaced
@@ -722,6 +716,7 @@ const infoCardDetails = [
 ```
 
 **Pattern Benefits:**
+
 - **Code Splitting**: Only load code needed for specific pages
 - **Maintainability**: Page logic stays separate from global application code
 - **Performance**: Smaller bundle sizes for pages that don't need all features
@@ -733,9 +728,9 @@ Define data as an array of objects matching the template structure:
 ```javascript
 const infoCardDetails = [
   {
-    strongMsg: 'Open',           // Maps to <strong> element
-    bodyMsg: 'Description...',    // Maps to <p> element
-    pictogramName: 'advocate',    // Maps to CSS class modifier
+    strongMsg: 'Open', // Maps to <strong> element
+    bodyMsg: 'Description...', // Maps to <p> element
+    pictogramName: 'advocate', // Maps to CSS class modifier
   },
   // Additional items...
 ];
@@ -788,13 +783,14 @@ const infoCards = document.querySelectorAll('.info-card');
 
 ```javascript
 // ✅ Use innerHTML when content may contain HTML entities or formatting
-strongEl.innerHTML = strongMsg;  // Preserves apostrophes, quotes, etc.
+strongEl.innerHTML = strongMsg; // Preserves apostrophes, quotes, etc.
 
 // ❌ Using textContent may escape HTML entities incorrectly
-strongEl.textContent = "It's";  // May display as "It&#39;s"
+strongEl.textContent = "It's"; // May display as "It&#39;s"
 ```
 
 **When to use each:**
+
 - `innerHTML`: Content with punctuation, HTML entities, or formatting
 - `textContent`: Plain text with no special characters or HTML
 
@@ -803,21 +799,25 @@ strongEl.textContent = "It's";  // May display as "It&#39;s"
 Two approaches for replacing placeholder elements:
 
 #### Method 1: Replace Element (Recommended)
+
 ```javascript
-here.innerHTML = '';       // Clear placeholder content
+here.innerHTML = ''; // Clear placeholder content
 here.replaceWith(newCard); // Replace entire element
 ```
 
 #### Method 2: Replace Inner Content
+
 ```javascript
-here.innerHTML = newCard.innerHTML;  // Replace only inner content
+here.innerHTML = newCard.innerHTML; // Replace only inner content
 ```
 
 **Use Method 1 when:**
+
 - Template includes grid column classes
 - You want to replace the entire component structure
 
 **Use Method 2 when:**
+
 - Grid classes are on parent container
 - You only want to replace content, not structure
 
@@ -836,12 +836,11 @@ here.innerHTML = newCard.innerHTML;  // Replace only inner content
 </h4>
 
 <!-- ✅ CORRECT - Multi-line for complex content -->
-<p class="info-card__body">
-  Body goes here
-</p>
+<p class="info-card__body">Body goes here</p>
 ```
 
 **Formatting Rules:**
+
 1. **Simple elements**: Keep on single line if content is short
 2. **Complex elements**: Use line breaks for readability
 3. **Consistency**: Match Carbon's upstream formatting conventions
@@ -882,6 +881,7 @@ here.innerHTML = newCard.innerHTML;  // Replace only inner content
 ```
 
 **Responsive Pattern Rules:**
+
 1. **Desktop-first base styles**: Define desktop layout first
 2. **breakpoint-down()**: Use Carbon's breakpoint mixin for responsive adjustments
 3. **nth-of-type()**: Target specific items in a series
@@ -924,6 +924,7 @@ pictogramEl.classList.add(`info-card__pictogram--${pictogramName}`);
 ```
 
 **Pictogram Pattern Benefits:**
+
 1. **Theme-aware**: Uses `$text-primary` token so pictograms match theme
 2. **Scalable**: SVG-based, scales perfectly
 3. **Maintainable**: Add new pictograms by adding modifier classes
@@ -939,14 +940,15 @@ pictogramEl.classList.add(`info-card__pictogram--${pictogramName}`);
 6. **innerHTML Usage**: Use `innerHTML` for content with HTML entities
 7. **Formatting Consistency**: Match Carbon's formatting standards (compare with upstream branches)
 8. **Responsive Design**: Plan for multiple breakpoints in component styles
-9. **BEM Naming**: Use Block__Element--Modifier pattern for class names
+9. **BEM Naming**: Use Block\_\_Element--Modifier pattern for class names
 10. **Placeholder Content**: Use descriptive placeholders that indicate purpose
 
 ---
 
 ## BEM Naming Conventions
 
-Carbon follows the BEM (Block Element Modifier) methodology for CSS class naming. Understanding this pattern is critical for working with Carbon components.
+Carbon follows the BEM (Block Element Modifier) methodology for CSS class naming. Understanding this pattern is critical
+for working with Carbon components.
 
 ### BEM Structure
 
@@ -963,20 +965,18 @@ Carbon follows the BEM (Block Element Modifier) methodology for CSS class naming
 ```html
 <!-- Block: info-card -->
 <div class="info-card">
-  
   <!-- Element: info-card__upper -->
   <div class="info-card__upper">
-    
     <!-- Element: info-card__heading -->
     <h4 class="info-card__heading">
       <!-- Element with Modifier: info-card__heading--strong -->
       <strong class="info-card__heading--strong">Open</strong>
     </h4>
-    
+
     <!-- Element: info-card__body -->
     <p class="info-card__body">Description text</p>
   </div>
-  
+
   <!-- Element: info-card__pictogram -->
   <!-- Element with Modifier: info-card__pictogram--advocate -->
   <div class="info-card__pictogram info-card__pictogram--advocate"></div>
@@ -994,15 +994,22 @@ Carbon follows the BEM (Block Element Modifier) methodology for CSS class naming
 
 ```scss
 // ✅ CORRECT BEM naming
-.info-section__heading { }
-.info-card__pictogram { }
-.info-card__pictogram--advocate { }
-.info-card__heading--strong { }
-.page-landing__tab-content { }
+.info-section__heading {
+}
+.info-card__pictogram {
+}
+.info-card__pictogram--advocate {
+}
+.info-card__heading--strong {
+}
+.page-landing__tab-content {
+}
 
 // ❌ WRONG - Too much nesting
-.info-section .heading { }           // Use .info-section__heading
-.info-card .pictogram.advocate { }   // Use .info-card__pictogram--advocate
+.info-section .heading {
+} // Use .info-section__heading
+.info-card .pictogram.advocate {
+} // Use .info-card__pictogram--advocate
 ```
 
 ### BEM with Carbon Grid Classes
@@ -1030,15 +1037,19 @@ element.classList.add(`${blockClass}--${modifier}`);
 ### When to Create New Blocks
 
 Create a new block when:
+
 - Component is reusable and standalone
 - Component has distinct purpose and structure
 - Component could exist independently on different pages
 
 ```scss
 // Separate blocks for different components
-.info-card { }
-.info-section { }
-.page-landing { }
+.info-card {
+}
+.info-section {
+}
+.page-landing {
+}
 ```
 
 ### BEM with Responsive Modifiers
@@ -1046,18 +1057,19 @@ Create a new block when:
 ```scss
 .info-card {
   // Base styles
-  
+
   // Use :nth-of-type for positional styling
   &:nth-of-type(2) {
     // Styles for second card
   }
-  
+
   // Avoid creating position-based modifiers like:
   // .info-card--second (Don't do this)
 }
 ```
 
 **Why avoid position modifiers?**
+
 - Position is context-dependent
 - `:nth-of-type()` is more maintainable
 - Keeps HTML cleaner
@@ -1105,9 +1117,9 @@ Carbon uses design tokens for consistent theming. Access tokens through SCSS var
 @use '@carbon/styles/scss/theme' as *;
 
 .element {
-  color: $text-primary;           // Primary text color
-  background-color: $background;  // Background color
-  border-color: $border-subtle;   // Subtle border color
+  color: $text-primary; // Primary text color
+  background-color: $background; // Background color
+  border-color: $border-subtle; // Subtle border color
 }
 ```
 
@@ -1126,6 +1138,7 @@ Carbon uses design tokens for consistent theming. Access tokens through SCSS var
 ```
 
 Common type styles:
+
 - `heading-01` through `heading-07`
 - `body-compact-01`, `body-compact-02`
 - `label-01`, `label-02`
@@ -1172,7 +1185,7 @@ Carbon Web Components use named slots for flexible content placement.
 <cds-component>
   <!-- Default slot (unnamed) -->
   <div>Default content</div>
-  
+
   <!-- Named slot -->
   <div slot="icon">Icon content</div>
   <span slot="tooltip-content">Tooltip text</span>
@@ -1212,7 +1225,7 @@ public/
 .action-icon {
   width: 1.25rem;
   height: 1.25rem;
-  background-color: $text-primary;  // Uses theme token
+  background-color: $text-primary; // Uses theme token
 }
 
 .notification .action-icon {
@@ -1233,6 +1246,7 @@ public/
 ```
 
 **Benefits:**
+
 - Icons automatically match theme colors
 - Scalable (uses background-color from theme)
 - Accessible
@@ -1248,18 +1262,16 @@ Carbon Web Components emit custom events. Listen like native events:
 
 ```javascript
 // Content Switcher
-document.querySelector('.theme-selector')
-  ?.addEventListener('cds-content-switcher-selected', (ev) => {
-    const value = ev.detail.item.value;
-    // Handle selection
-  });
+document.querySelector('.theme-selector')?.addEventListener('cds-content-switcher-selected', (ev) => {
+  const value = ev.detail.item.value;
+  // Handle selection
+});
 
 // Checkbox
-document.querySelector('#checkbox-id')
-  ?.addEventListener('cds-checkbox-changed', (ev) => {
-    const checked = ev.target.checked;
-    // Handle change
-  });
+document.querySelector('#checkbox-id')?.addEventListener('cds-checkbox-changed', (ev) => {
+  const checked = ev.target.checked;
+  // Handle change
+});
 ```
 
 ### Event Detail Structure
@@ -1267,9 +1279,9 @@ document.querySelector('#checkbox-id')
 Custom events include `detail` property:
 
 ```javascript
-ev.detail.item.value      // For content switcher
-ev.target.checked         // For checkbox
-ev.currentTarget          // Element that has listener
+ev.detail.item.value; // For content switcher
+ev.target.checked; // For checkbox
+ev.currentTarget; // Element that has listener
 ```
 
 ### Optional Chaining Pattern
@@ -1278,6 +1290,362 @@ Use optional chaining (`?.`) when selecting elements that may not exist on all p
 
 ```javascript
 document.querySelector('.element')?.addEventListener('event', handler);
+```
+
+---
+
+## Linting and Code Quality
+
+### Why Linting is Critical for Carbon Design System
+
+Linting ensures consistency with Carbon Design System's architectural decisions and best practices:
+
+1. **Carbon Token Enforcement**: Ensures use of Carbon design tokens instead of hard-coded values
+2. **Accessibility Compliance**: Catches accessibility violations early in development
+3. **RTL/Internationalization**: Enforces logical CSS properties for right-to-left language support
+4. **BEM Naming Consistency**: Validates proper Block Element Modifier naming conventions
+5. **Code Formatting**: Maintains consistent code style across the team
+6. **Spelling**: Prevents typos in code, comments, and documentation
+
+### Linting Tools Configuration
+
+#### 1. Stylelint (SCSS/CSS Linting)
+
+**Purpose**: Enforces Carbon design tokens, accessibility rules, and logical properties for RTL support.
+
+**Installation:**
+
+```bash
+pnpm add -D stylelint stylelint-plugin-carbon-tokens
+# Extended configuration (recommended):
+pnpm add -D @double-great/stylelint-a11y stylelint-config-standard-scss stylelint-use-logical-spec
+```
+
+**Configuration (`.stylelintrc.json`):**
+
+```json
+{
+  "extends": ["stylelint-plugin-carbon-tokens/config/recommended", "stylelint-config-standard-scss"],
+  "plugins": ["stylelint-plugin-carbon-tokens", "@double-great/stylelint-a11y", "stylelint-use-logical-spec"],
+  "reportDescriptionlessDisables": true,
+  "reportInvalidScopeDisables": true,
+  "reportNeedlessDisables": true,
+  "rules": {
+    "selector-class-pattern": "^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$",
+    "declaration-empty-line-before": null,
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["top", "bottom"]
+      }
+    ]
+  }
+}
+```
+
+**Key Features:**
+
+- **Carbon Token Plugin**: Flags hard-coded values that should use Carbon design tokens
+
+  ```scss
+  // ❌ Wrong
+  font-weight: 600;
+
+  // ✅ Correct
+  font-weight: font-weight('semibold');
+  ```
+
+- **BEM Pattern Validation**: Ensures proper Block\_\_Element--Modifier naming
+
+  ```scss
+  // ✅ Valid BEM patterns
+  .page-landing__banner {
+  }
+  .info-card__heading {
+  }
+  .theme-selector__icon--dark {
+  }
+  ```
+
+- **Logical Properties**: Auto-fixes physical properties to logical ones for RTL support
+
+  ```scss
+  // Before auto-fix:
+  margin-left: $spacing-05;
+  padding-right: $spacing-03;
+  border-left: 1px solid;
+
+  // After auto-fix:
+  margin-inline-start: $spacing-05;
+  padding-inline-end: $spacing-03;
+  border-inline-start: 1px solid;
+  ```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:style": "stylelint \"**/*.scss\"",
+    "lint:style:fix": "stylelint \"**/*.scss\" --fix"
+  }
+}
+```
+
+#### 2. ESLint (JavaScript Linting)
+
+**Purpose**: Enforces JavaScript best practices and code quality.
+
+**Installation:**
+
+```bash
+pnpm add -D eslint @eslint/js eslint-config-prettier globals
+```
+
+**Configuration (`eslint.config.js`):**
+
+```javascript
+import js from '@eslint/js';
+import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
+
+export default [
+  js.configs.recommended,
+  eslintConfigPrettier,
+  {
+    languageOptions: {
+      ecmaVersion: 2024,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+];
+```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:es": "eslint . main.js --report-unused-disable-directives --max-warnings 0"
+  }
+}
+```
+
+#### 3. Prettier (Code Formatting)
+
+**Purpose**: Maintains consistent code formatting across all file types.
+
+**Installation:**
+
+```bash
+pnpm add -D prettier
+```
+
+**Configuration (`.prettierrc`):**
+
+```json
+{
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "proseWrap": "always"
+}
+```
+
+**Key Settings:**
+
+- `printWidth: 120`: Matches Carbon's wider line length for readability
+- `singleQuote: true`: Consistent with Carbon's JavaScript style
+- `bracketSameLine: true`: JSX-friendly formatting
+- `proseWrap: "always"`: Wraps markdown documentation consistently
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:format": "prettier ./**/*.{js,jsx,ts,tsx,md,mdx,scss} --write --ignore-unknown --no-error-on-unmatched-pattern --log-level warn"
+  }
+}
+```
+
+#### 4. CSpell (Spell Checker)
+
+**Purpose**: Catches typos in code, comments, and documentation.
+
+**Installation:**
+
+```bash
+pnpm add -D cspell
+```
+
+**Configuration (`cspell.json`):**
+
+```json
+{
+  "version": "0.1",
+  "language": "en",
+  "enabledLanguageIds": [
+    "css",
+    "git-commit",
+    "html",
+    "javascript",
+    "json",
+    "jsonc",
+    "markdown",
+    "scss",
+    "typescript",
+    "yaml"
+  ],
+  "words": ["flexbox", "illo", "subgrid", "Subgrid", "Subgrids"]
+}
+```
+
+**Package Scripts:**
+
+```json
+{
+  "scripts": {
+    "lint:spell": "cspell lint --quiet \"**/*.{js,css,scss,md}\""
+  }
+}
+```
+
+### Linting Workflow
+
+**1. Run all linters before committing:**
+
+```bash
+pnpm run lint:style && pnpm run lint:es && pnpm run lint:spell
+```
+
+**2. Auto-fix what can be fixed:**
+
+```bash
+pnpm run lint:style -- --fix
+pnpm run lint:format
+```
+
+**3. Common Issues and Fixes:**
+
+| Issue                   | Tool      | Solution                                                    |
+| ----------------------- | --------- | ----------------------------------------------------------- |
+| Hard-coded CSS values   | Stylelint | Use Carbon tokens: `font-weight('semibold')`, `$spacing-05` |
+| Physical CSS properties | Stylelint | Run `--fix` to convert to logical properties                |
+| BEM naming violations   | Stylelint | Follow `block__element--modifier` pattern                   |
+| Code formatting         | Prettier  | Run `lint:format` to auto-format                            |
+| Typos                   | CSpell    | Fix typo or add to `words` array if intentional             |
+
+### Why Logical Properties Matter for Carbon
+
+Logical properties enable seamless right-to-left (RTL) language support without code changes:
+
+**Physical Properties (❌ RTL-incompatible):**
+
+```scss
+.card {
+  margin-left: 16px; // Always left margin, even in RTL
+  padding-right: 8px; // Always right padding, even in RTL
+  border-left: 1px solid; // Always left border, even in RTL
+}
+```
+
+**Logical Properties (✅ RTL-compatible):**
+
+```scss
+.card {
+  margin-inline-start: 16px; // Left in LTR, right in RTL
+  padding-inline-end: 8px; // Right in LTR, left in RTL
+  border-inline-start: 1px solid; // Left in LTR, right in RTL
+}
+```
+
+**Logical Property Reference:**
+
+| Physical        | Logical               | Meaning                      |
+| --------------- | --------------------- | ---------------------------- |
+| `left`          | `inline-start`        | Start of reading direction   |
+| `right`         | `inline-end`          | End of reading direction     |
+| `top`           | `block-start`         | Start of block flow          |
+| `bottom`        | `block-end`           | End of block flow            |
+| `width`         | `inline-size`         | Size along reading direction |
+| `height`        | `block-size`          | Size along block flow        |
+| `margin-left`   | `margin-inline-start` | Margin at reading start      |
+| `padding-right` | `padding-inline-end`  | Padding at reading end       |
+
+### Carbon Token Enforcement Examples
+
+Stylelint with the Carbon tokens plugin ensures you use design tokens instead of magic numbers:
+
+```scss
+// ❌ Flagged by stylelint
+.element {
+  font-weight: 600; // Use font-weight('semibold')
+  padding: 16px; // Use $spacing-05
+  color: #161616; // Use $text-primary
+  font-size: 14px; // Use type-style mixin
+}
+
+// ✅ Passes stylelint
+.element {
+  font-weight: font-weight('semibold');
+  padding: $spacing-05;
+  color: $text-primary;
+  @include type-style('body-short-01');
+}
+```
+
+### Accessibility Linting with stylelint-a11y
+
+The `@double-great/stylelint-a11y` plugin catches accessibility violations:
+
+- Insufficient color contrast
+- Missing font size units
+- Content property misuse
+- Outline removal without alternatives
+- Media query accessibility issues
+
+**Example:**
+
+```scss
+// ❌ Flagged - removing outline without alternative
+.button:focus {
+  outline: none; // Accessibility violation
+}
+
+// ✅ Correct - provide visible focus indicator
+.button:focus {
+  outline: 2px solid $focus;
+  outline-offset: 2px;
+}
+```
+
+### Integration with CI/CD
+
+Add linting to your CI pipeline to enforce standards:
+
+```yaml
+# .github/workflows/lint.yml
+name: Lint
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+      - run: pnpm install
+      - run: pnpm run lint:style
+      - run: pnpm run lint:es
+      - run: pnpm run lint:spell
 ```
 
 ---
@@ -1328,6 +1696,7 @@ All interactive components should have ARIA labels:
 ### 1. Component Organization
 
 **main.js structure:**
+
 ```javascript
 // 1. Styles first
 import './style.scss';
@@ -1339,13 +1708,17 @@ import '@carbon/web-components/es/components/...';
 const bodyEl = document.querySelector('body');
 
 // 4. Event handlers
-const handleEvent = (ev) => { /* ... */ };
+const handleEvent = (ev) => {
+  /* ... */
+};
 
 // 5. Event listener attachments
 element.addEventListener('event', handleEvent);
 
 // 6. Initial setup
-if (condition) { /* setup code */ }
+if (condition) {
+  /* setup code */
+}
 ```
 
 ### 2. SCSS Import Order
@@ -1365,10 +1738,14 @@ if (condition) { /* setup code */ }
 @use '@carbon/styles/scss/type' as *;
 
 // 5. Theme definitions
-:root { /* ... */ }
+:root {
+  /* ... */
+}
 
 // 6. Custom styles
-.my-component { /* ... */ }
+.my-component {
+  /* ... */
+}
 ```
 
 ### 3. Theme Detection
@@ -1387,8 +1764,8 @@ if (matchMedia('(prefers-color-scheme: dark)').matches) {
 Web Components expose properties that can be set directly:
 
 ```javascript
-panel.expanded = false;  // Close panel
-nav.open = true;         // Open navigation
+panel.expanded = false; // Close panel
+nav.open = true; // Open navigation
 ```
 
 ### 5. Responsive Behavior
@@ -1396,9 +1773,7 @@ nav.open = true;         // Open navigation
 Use `collapse-mode` for responsive navigation:
 
 ```html
-<cds-side-nav
-  is-not-persistent
-  collapse-mode="${SIDE_NAV_COLLAPSE_MODE.RESPONSIVE}">
+<cds-side-nav is-not-persistent collapse-mode="${SIDE_NAV_COLLAPSE_MODE.RESPONSIVE}">
   <!-- Navigation items -->
 </cds-side-nav>
 ```
@@ -1470,8 +1845,7 @@ const handleSwitch = (ev) => {
   }
 };
 
-document.querySelector('.theme-selector')
-  ?.addEventListener('cds-content-switcher-selected', handleSwitch);
+document.querySelector('.theme-selector')?.addEventListener('cds-content-switcher-selected', handleSwitch);
 
 // Initialize based on system preference
 if (matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -1493,8 +1867,7 @@ const handleCompliment = (ev) => {
   }
 };
 
-document.querySelector('#header-compliment')
-  ?.addEventListener('cds-checkbox-changed', handleCompliment);
+document.querySelector('#header-compliment')?.addEventListener('cds-checkbox-changed', handleCompliment);
 ```
 
 ---
@@ -1525,7 +1898,7 @@ const fetchData = async () => {
     sort: 'updated',
     direction: 'desc',
   });
-  
+
   // Map API response to application data structure
   data = res.data.map((row) => ({
     name: row.name,
@@ -1573,18 +1946,18 @@ Carbon provides skeleton components for loading states:
 const replaceSkeleton = () => {
   const skeleton = document.querySelector('cds-table-skeleton');
   const tableTemplate = document.querySelector('template#template--table');
-  
+
   if (skeleton && tableTemplate) {
     // Clone template content
     const newTable = tableTemplate.content.cloneNode(true);
-    
+
     // Replace skeleton with real content
     skeleton.replaceWith(newTable);
-    
+
     // Populate with data
     updateTable();
     updatePagination();
-    
+
     // Attach event listeners
     attachEventListeners();
   }
@@ -1598,10 +1971,7 @@ Carbon's pagination component handles large datasets with customizable page size
 #### Pagination HTML Structure
 
 ```html
-<cds-pagination 
-  backward-text="Previous page" 
-  forward-text="Next page" 
-  items-per-page-text="Items per page:">
+<cds-pagination backward-text="Previous page" forward-text="Next page" items-per-page-text="Items per page:">
   <cds-select-item value="10">10</cds-select-item>
   <cds-select-item value="20">20</cds-select-item>
   <cds-select-item value="30">30</cds-select-item>
@@ -1637,7 +2007,7 @@ const handlePageChangeCurrent = (e) => {
 const handlePageSizeChange = (e) => {
   const { pageSize: newPageSize } = e.detail;
   pageSize = newPageSize;
-  firstRowIndex = 0;  // Reset to first page
+  firstRowIndex = 0; // Reset to first page
   updateTable();
   updatePagination();
 };
@@ -1649,10 +2019,10 @@ const handlePageSizeChange = (e) => {
 const updateTable = () => {
   const tableBody = document.querySelector('cds-table-body');
   const tableRowTemplate = document.querySelector('template#template--table-row');
-  
+
   if (tableBody && tableRowTemplate) {
     tableBody.innerHTML = '';
-    
+
     // Filter data for current page
     data
       .filter((v, i) => i >= firstRowIndex && i < firstRowIndex + pageSize)
@@ -1670,14 +2040,8 @@ const updateTable = () => {
 ```javascript
 const pagination = document.querySelector('cds-pagination');
 if (pagination) {
-  pagination.addEventListener(
-    'cds-pagination-changed-current',
-    handlePageChangeCurrent
-  );
-  pagination.addEventListener(
-    'cds-pagination-changed-page-size',
-    handlePageSizeChange
-  );
+  pagination.addEventListener('cds-pagination-changed-current', handlePageChangeCurrent);
+  pagination.addEventListener('cds-pagination-changed-page-size', handlePageSizeChange);
 }
 ```
 
@@ -1693,7 +2057,7 @@ import '@carbon/web-components/es/components/link/index.js';
 if (key === 'links') {
   const url = row[key].url;
   const homepage = row[key].homepage;
-  
+
   let innerHTML = '<ul class="link-list">';
   if (url) {
     innerHTML += `<li><cds-link href="${url}">GitHub</cds-link></li>`;
@@ -1702,7 +2066,7 @@ if (key === 'links') {
     innerHTML += `<li><cds-link href="${homepage}">Homepage</cds-link></li>`;
   }
   innerHTML += '</ul>';
-  
+
   keyEl.innerHTML = innerHTML;
 }
 ```
@@ -1748,7 +2112,8 @@ This creates a horizontal list with pipe separators between links.
 8. **Icons**: Use CSS mask pattern for themeable icons
 9. **Responsive**: Use built-in responsive modes, not custom media queries
 10. **Properties**: Set component properties directly on DOM elements
-11. **Grid Classes on Content**: NEVER create wrapper divs - put grid column classes on the same element as content classes
+11. **Grid Classes on Content**: NEVER create wrapper divs - put grid column classes on the same element as content
+    classes
 12. **Image Dimensions**: Always include width and height attributes on images
 13. **Template Placement**: Place templates after `</body>` but before `</html>`
 14. **API Integration**: Use async/await with proper error handling and loading states
@@ -1758,15 +2123,34 @@ This creates a horizontal list with pipe separators between links.
 18. **Event Timing**: Attach event listeners AFTER DOM elements are created (after skeleton replacement)
 19. **Data Transformation**: Map API responses to match application data structure
 20. **Canonical Paths**: Use `/` for root navigation, not `./`
-21. **innerHTML Usage**: Use `innerHTML` instead of `textContent` when content contains HTML entities (apostrophes, quotes, etc.)
-22. **Template Formatting**: Match Carbon's exact formatting conventions - compare with upstream branches before committing
-23. **BEM Naming**: Follow Block__Element--Modifier pattern consistently
+21. **innerHTML Usage**: Use `innerHTML` instead of `textContent` when content contains HTML entities (apostrophes,
+    quotes, etc.)
+22. **Template Formatting**: Match Carbon's exact formatting conventions - compare with upstream branches before
+    committing
+23. **BEM Naming**: Follow Block\_\_Element--Modifier pattern consistently
 24. **Responsive Breakpoints**: Use `@include breakpoint-down(breakpoint)` for mobile-first responsive design
 25. **CSS Formatting**: Follow Carbon's multi-line formatting for complex properties like box-shadow
-26. **Component Files**: Create page-specific JS files (landing.js, repos.js) for components that only appear on certain pages
-27. **Placeholder Replacement**: Use `element.replaceWith()` when replacing entire components, `innerHTML` for content only
+26. **Component Files**: Create page-specific JS files (landing.js, repos.js) for components that only appear on certain
+    pages
+27. **Placeholder Replacement**: Use `element.replaceWith()` when replacing entire components, `innerHTML` for content
+    only
 28. **Dynamic Class Modifiers**: Use template literals to build BEM modifier classes from data: `${block}--${modifier}`
 29. **Pictogram Pattern**: Combine base styles with modifier classes for dynamic icon systems using CSS masks
+30. **Linting is Essential**: Set up Stylelint, ESLint, Prettier, and CSpell to enforce Carbon patterns and catch issues
+    early
+31. **Carbon Token Plugin**: Always use `stylelint-plugin-carbon-tokens` to enforce design token usage instead of
+    hard-coded values
+32. **Logical CSS Properties**: Use `inline-start`/`inline-end`, `block-start`/`block-end` instead of physical
+    directions for RTL support
+33. **Extended Stylelint Config**: Combine Carbon tokens, standard SCSS, accessibility, and logical properties plugins
+    for comprehensive linting
+34. **Auto-fix Workflow**: Run `stylelint --fix` and `prettier --write` to automatically fix many code quality issues
+35. **BEM Regex Pattern**: Use `^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$` to validate BEM naming with hyphens
+36. **Accessibility Linting**: Use `@double-great/stylelint-a11y` to catch accessibility violations in CSS
+37. **Internationalization Readiness**: Logical properties ensure your UI works correctly in right-to-left languages
+    without code changes
+38. **Spell Checking**: Use CSpell across all file types to maintain professional code quality and catch typos in
+    documentation
 
 ---
 
@@ -1780,17 +2164,24 @@ This creates a horizontal list with pipe separators between links.
 
 ---
 
-**Document Version**: 4.0  
-**Last Updated**: Based on Carbon Web Components 2.x and Steps 1-4 Tutorial  
-**Author**: Generated from IBM Carbon Design System Tutorial Implementation  
+**Document Version**: 5.0  
+**Last Updated**: Based on Carbon Web Components 2.x and Steps 1-5 Tutorial  
+**Author**: Generated from IBM Carbon Design System Tutorial Implementation
 
 **Version History:**
-- **v4.0**: Added Component Template Pattern (Step 4), BEM naming conventions, innerHTML vs textContent patterns, responsive breakpoint patterns, CSS formatting standards
-- **v3.0**: Added API Integration section (Step 3), corrected Grid pattern mistakes, added Pagination and Skeleton loader patterns, expanded Key Takeaways to 20 items
+
+- **v5.0**: Added comprehensive Linting and Code Quality section (Step 5), documenting Stylelint with Carbon tokens
+  plugin, ESLint, Prettier, CSpell, logical CSS properties for RTL support, accessibility linting, and why linting is
+  critical for Carbon Design System consistency
+- **v4.0**: Added Component Template Pattern (Step 4), BEM naming conventions, innerHTML vs textContent patterns,
+  responsive breakpoint patterns, CSS formatting standards
+- **v3.0**: Added API Integration section (Step 3), corrected Grid pattern mistakes, added Pagination and Skeleton
+  loader patterns, expanded Key Takeaways to 20 items
 - **v2.0**: CSS Grid system, Tabs component, Data Tables, HTML Templates pattern
 - **v1.0**: Initial release with UI Shell, Theme System, and core patterns
 
 **Critical Corrections in v3.0:**
+
 - Fixed Grid pattern - Grid column classes must be on content containers, NOT wrapper divs
 - Added image dimension requirements (width/height attributes)
 - Corrected breadcrumb path convention (use `/` not `./`)
@@ -1799,12 +2190,34 @@ This creates a horizontal list with pipe separators between links.
 - Added pagination component with state management
 
 **Critical Corrections in v4.0:**
-- **Template Formatting**: Match Carbon's upstream formatting conventions - simple elements stay single-line, complex elements use multiple lines
-- **innerHTML vs textContent**: Use `innerHTML` when content contains HTML entities (apostrophes, quotes) to prevent escaping issues
+
+- **Template Formatting**: Match Carbon's upstream formatting conventions - simple elements stay single-line, complex
+  elements use multiple lines
+- **innerHTML vs textContent**: Use `innerHTML` when content contains HTML entities (apostrophes, quotes) to prevent
+  escaping issues
 - **Responsive Breakpoints**: Added complete mobile-first to desktop responsive pattern with `breakpoint-down()`
 - **CSS Formatting**: Multi-line `box-shadow` declarations match Carbon style guide
 - **BEM Consistency**: Document the importance of following exact BEM naming conventions from upstream
-- **Template Structure**: Preserve even apparent "typos" from upstream (e.g., `info-card__uppder`) when they're intentional template placeholders
+- **Template Structure**: Match upstream template structure exactly, including proper BEM naming like `info-card__upper`
+  for semantic template sections
 - **Component Files**: Organize page-specific JavaScript (landing.js, repos.js) separately from global (main.js)
+
+**Critical Learnings in v5.0 (Linting):**
+
+- **Carbon Token Enforcement**: Stylelint with `stylelint-plugin-carbon-tokens` catches hard-coded values (e.g.,
+  `font-weight: 600` should be `font-weight('semibold')`)
+- **Logical Properties**: Use `inline-start`/`inline-end` instead of `left`/`right` for RTL language support - stylelint
+  can auto-fix these
+- **Accessibility Linting**: `@double-great/stylelint-a11y` plugin catches accessibility violations like removed
+  outlines without alternatives
+- **BEM Pattern Validation**: Custom regex pattern validates Block**Element--Modifier naming with hyphens:
+  `^[a-z][a-z0-9-]\*(**[a-z0-9-]+)_(--[a-z0-9-]+)_$`
+- **Extended Configuration**: Combining multiple Stylelint plugins provides comprehensive code quality checks
+- **Auto-fixing**: Many linting issues (logical properties, formatting) can be auto-fixed with `--fix` flag
+- **Spelling Matters**: Use CSpell to catch typos early - don't add misspellings to allowed words list, fix them
+- **Linting is for Consistency**: Linting enforces Carbon Design System architectural decisions across teams and ensures
+  internationalization readiness
+
+```
 
 ```

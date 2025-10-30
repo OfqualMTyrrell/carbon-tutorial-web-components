@@ -1,0 +1,17 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "enabledLanguageIds": [
+    "css",
+    "git-commit",
+    "html",
+    "javascript",
+    "json",
+    "jsonc",
+    "markdown",
+    "scss",
+    "typescript",
+    "yaml"
+  ],
+  "words": ["flexbox", "illo", "subgrid", "Subgrid", "Subgrids"]
+}

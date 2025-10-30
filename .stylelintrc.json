@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "stylelint-plugin-carbon-tokens/config/recommended",
+    "stylelint-config-standard-scss"
+  ],
+  "plugins": [
+    "stylelint-plugin-carbon-tokens",
+    "@double-great/stylelint-a11y",
+    "stylelint-use-logical-spec"
+  ],
+  "reportDescriptionlessDisables": true,
+  "reportInvalidScopeDisables": true,
+  "reportNeedlessDisables": true,
+  "rules": {
+    "selector-class-pattern": "^[a-z][a-z0-9-]*(__[a-z0-9-]+)*(--[a-z0-9-]+)*$",
+    "declaration-empty-line-before": null,
+    "liberty/use-logical-spec": [
+      "always",
+      {
+        "except": ["top", "bottom"]
+      }
+    ]
+  }
+}

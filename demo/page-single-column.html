@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Column Layout | Carbon Grid Demo</title>
+</head>
+<body class="white">
+  <!-- 
+    Page C: Single-column layout demonstrating full-width content sections
+    Constitution compliance: Grid classes on content containers, template placement after </body>
+  -->
+
+  <cds-header aria-label="Grid Layout Showcase">
+    <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
+    <cds-header-name prefix="">Grid Demo</cds-header-name>
+    <cds-header-nav aria-label="Demo navigation">
+      <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
+      <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
+      <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
+      <cds-header-nav-item href="./page-link-nav.html">Link Nav</cds-header-nav-item>
+    </cds-header-nav>
+    <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
+  </cds-header>
+  <cds-side-nav is-not-persistent="" aria-label="Side navigation" collapse-mode="responsive">
+    <cds-side-nav-items>
+      <cds-side-nav-link href="./page-filter-table.html">
+        Filter + Table
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-shell-side-nav.html">
+        Shell + Side Nav
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-single-column.html" active>
+        Single Column
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-link-nav.html">
+        Link Nav
+      </cds-side-nav-link>
+    </cds-side-nav-items>
+  </cds-side-nav>
+
+  <main id="main-content" class="cds--content">
+    <!-- 
+      Grid Container: Single-column layout with 2x Grid hanging alignment
+      Narrow grid: Max-width constraint with centered alignment
+      Hanging pattern: sm=full, md=cols 2-7, lg=cols 3-13, xlg/max=cols 4-13
+      BEM naming: .content-section for each major section
+    -->
+    <div class="cds--css-grid cds--css-grid--full-width">
+      
+      <!-- Content Section 1: Introduction -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Full-width: Spans all available columns at each breakpoint
+      -->
+      <section 
+        class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        aria-label="Introduction">
+        <h2 class="content-section__heading">Single Column Layout Pattern</h2>
+        <p class="content-section__body">
+          This page demonstrates a single-column layout where content sections span the full width 
+          of the grid at all breakpoints. This pattern is ideal for landing pages, documentation, 
+          and content-first experiences where readability and flow are prioritized.
+        </p>
+      </section>
+
+      <!-- Content Section 2: Subgrid Example -->
+      <!-- 
+        Subgrid usage: Nested grid that inherits parent grid columns
+        Constitution: Demonstrates template placement pattern
+      -->
+      <section 
+        class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        aria-label="Subgrid example">
+        <h2 class="content-section__heading">Subgrid Pattern</h2>
+        <p class="content-section__body">
+          The Carbon grid supports subgrids for nested layouts. Below is an example of a subgrid 
+          that maintains alignment with the parent grid structure while allowing independent 
+          column allocation for child elements.
+        </p>
+        
+        <!-- Subgrid example -->
+        <div class="cds--subgrid cds--subgrid--full-wide">
+          <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-4">
+            <p class="content-section__body">
+              This content is in a subgrid and occupies half the width on large viewports, 
+              demonstrating how nested grids maintain parent alignment.
+            </p>
+          </div>
+          <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-4">
+            <p class="content-section__body">
+              The second column of the subgrid occupies the other half, creating a balanced 
+              two-column layout within the single-column page structure.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Section 3: Responsive Typography -->
+      <section 
+        class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        aria-label="Responsive typography">
+        <h2 class="content-section__heading">Responsive Typography Rhythm</h2>
+        <p class="content-section__body">
+          All typography on this page uses Carbon design tokens to maintain consistent rhythm 
+          across breakpoints. Headings scale automatically using Carbon's type styles, and 
+          spacing between sections uses Carbon's spacing tokens for predictable vertical flow.
+        </p>
+        <p class="content-section__body">
+          The mobile-first approach means small viewport styles serve as the base, with progressive 
+          enhancements at medium and large breakpoints. This ensures optimal readability on all 
+          device sizes without custom media queries.
+        </p>
+      </section>
+
+      <!-- Content Section 4: Implementation Notes -->
+      <section 
+        class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10"
+        aria-label="Implementation notes">
+        <h2 class="content-section__heading">Key Takeaways</h2>
+        <div class="cds--subgrid cds--subgrid--full-wide">
+          <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
+            <p class="content-section__body">
+              <strong>Grid Classes:</strong> All content sections have grid classes applied directly
+              to the section element (no wrapper divs). This maintains clean DOM structure and
+              prevents grid-breaking nesting.
+            </p>
+            <div class="content-section__pictogram content-section__pictogram--advocate" aria-label="Best practices pictogram">
+            </div>
+            </div>
+            <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
+            <p class="content-section__body">
+              <strong>BEM Naming:</strong> Custom classes follow the Block__Element pattern
+              (e.g., .content-section, .content-section__heading) to distinguish them from Carbon's
+              component classes and maintain predictable CSS specificity.
+            </p>
+            <div class="content-section__pictogram content-section__pictogram--globe" aria-label="Grid layout pictogram"></div>
+            </div>
+            <div class="cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-4 cds--lg:col-span-3">
+            <p class="content-section__body">
+              <strong>Image Dimensions:</strong> All images include explicit width and height attributes
+              to prevent layout shift during page load. This is a constitution requirement for
+              performance and accessibility.
+            </p>
+            <div class="content-section__pictogram content-section__pictogram--advocate" aria-label="Best practices pictogram">
+            </div>
+            </div>
+            </div>
+      </section>
+      
+    </div>
+  </main>
+
+  <!-- 
+    Import JavaScript module
+    Constitution: Styles imported first in JS module, then components
+  -->
+  <script type="module" src="./page-single-column.js"></script>
+</body>
+
+<!-- 
+  Template Placement Pattern (optional demonstration)
+  Constitution: Templates placed after </body> tag, before </html>
+  Note: This template is not used functionally in this demo, but demonstrates the pattern
+-->
+<template id="template--content-section">
+  <section class="content-section cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-10">
+    <h2 class="content-section__heading">Template Section Heading</h2>
+    <p class="content-section__body">
+      This is a template that could be cloned via JavaScript to add dynamic content sections. 
+      Templates are placed after the closing body tag to keep them out of the visible DOM 
+      while remaining accessible to scripts.
+    </p>
+  </section>
+</template>
+
+</html>

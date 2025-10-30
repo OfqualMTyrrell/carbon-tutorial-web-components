@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Navigation Layout | Carbon Grid Demo</title>
+</head>
+<body class="white">
+  <!-- 
+    Page: Link Navigation Pattern
+    Two-column layout with left nav using cds-link components instead of side-nav
+    Constitution compliance: Grid classes on content containers, styles imported first in JS
+  -->
+
+  <cds-header aria-label="Grid Layout Showcase">
+    <cds-header-menu-button button-label-active="Close menu" button-label-inactive="Open menu"></cds-header-menu-button>
+    <cds-header-name prefix="">Grid Demo</cds-header-name>
+    <cds-header-nav aria-label="Demo navigation">
+      <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
+      <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
+      <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
+      <cds-header-nav-item href="./page-link-nav.html">Link Nav</cds-header-nav-item>
+    </cds-header-nav>
+    <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
+  </cds-header>
+
+  <cds-side-nav is-not-persistent="" aria-label="Side navigation" collapse-mode="responsive">
+    <cds-side-nav-items>
+      <cds-side-nav-link href="./page-filter-table.html">
+        Filter + Table
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-shell-side-nav.html">
+        Shell + Side Nav
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-single-column.html">
+        Single Column
+      </cds-side-nav-link>
+      <cds-side-nav-link href="./page-link-nav.html">
+        Link Nav
+      </cds-side-nav-link>
+    </cds-side-nav-items>
+  </cds-side-nav>
+
+  <main id="main-content" class="cds--content">
+    <!-- 
+      Grid Container: Full-width layout
+      Left nav: 3 columns (lg), content: 12 columns (lg)
+      Constitution: Grid classes on content containers, not wrapper divs
+    -->
+    <div class="cds--css-grid cds--css-grid--full-width">
+
+      <!-- Left Column: Link-based Navigation -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Uses cds-link components in cds-stack for vertical layout
+      -->
+      <nav 
+        class="link-nav cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-2 cds--lg:col-span-2"
+        aria-label="Section navigation">
+        <cds-stack gap="5" orientation="vertical">
+          <div class="link-nav__item link-nav__item--active" role="presentation">
+            <span class="link-nav__indicator" aria-hidden="true"></span>
+            <cds-link href="#overview" aria-current="page" size="lg">Overview</cds-link>
+          </div>
+          <div class="link-nav__item" role="presentation">
+            <span class="link-nav__indicator" aria-hidden="true"></span>
+            <cds-link href="#getting-started" size="lg">Getting started</cds-link>
+          </div>
+          <div class="link-nav__item" role="presentation">
+            <span class="link-nav__indicator" aria-hidden="true"></span>
+            <cds-link href="#components" size="lg">Components</cds-link>
+          </div>
+          <div class="link-nav__item" role="presentation">
+            <span class="link-nav__indicator" aria-hidden="true"></span>
+            <cds-link href="#guides" size="lg">Guides</cds-link>
+          </div>
+          <div class="link-nav__item" role="presentation">
+            <span class="link-nav__indicator" aria-hidden="true"></span>
+            <cds-link href="#patterns" size="lg">Patterns</cds-link>
+          </div>
+        </cds-stack>
+      </nav>
+
+      <!-- Right Column: Content Area -->
+      <!-- 
+        Constitution: Grid class on same element as content
+        Responsive: sm=full, md=6 cols, lg=12 cols
+      -->
+    <div class="content-area cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-5 cds--lg:col-span-9 cds--xlg:col-span-8 cds--max:col-span-8"
+        role="region" aria-label="Main content area">
+        
+        <section class="content-section">
+            <h2 class="content-section__heading">Welcome to the Dashboard</h2>
+            <p class="content-section__body">
+                In his dialogue Hippias Major, Plato has Socrates debate the essence of beauty, exploring whether it is
+                something simple
+                or complex. While the discussion is ultimately inconclusive, it establishes that beauty possesses a reality
+                similar to
+                the canonical Forms, which are discovered through dialectical inquiry. Plato's dialogues also propose that
+                beauty is
+                closely related to the good, but not identical to it. This suggests that while beauty might appear simple, its
+                true
+                nature is a complex philosophical concept.
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2 class="content-section__heading">2x Grid Two-Column Pattern</h2>
+            <p class="content-section__body">
+                In the Tao Te Ching, Lao Tzu presents the profound beauty of simplicity as a return to one's source or true
+                nature. The
+                text contains verses that extol simplicity, patience, and compassion as the "three greatest treasures." Lao
+                Tzu's vision
+                is not one of naive simplicity, but rather a "simplicity on the other side of complexity," suggesting that true
+                mastery
+                lies in navigating and understanding complexity to arrive at a deeper, more elegant simplicity. For example, he
+                advises,
+                "See simplicity in the complicated, seek greatness in small things".
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2 class="content-section__heading">Responsive Behavior</h2>
+            <p class="content-section__body">
+                In his account of living simply in a cabin in the woods, Thoreau critiques the excessive detail and complexity
+                of modern
+                life. His famous advice, "Simplify, simplify," is a central theme of the work. He argues that by stripping away
+                societal
+                clutter, one can find a deeper beauty and understanding of existence.
+            </p>
+        </section>
+        
+        <section class="content-section">
+            <h2 class="content-section__heading">Implementation Notes</h2>
+            <p class="content-section__body">
+                In contrast to writing on simplicity, Heller's satirical novel Catch-22 showcases the absurd beauty of pure,
+                unfettered
+                complexity. The infamous "Catch-22" is a maddeningly convoluted bureaucratic rule with a logical-yet-insane
+                internal
+                consistency that perfectly encapsulates the chaotic complexity of wartime absurdity.
+            </p>
+        </section>
+        
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- 
+    Import JavaScript module
+    Constitution: Styles imported first in JS module, then components
+  -->
+  <script type="module" src="./page-link-nav.js"></script>
+</body>
+</html>
