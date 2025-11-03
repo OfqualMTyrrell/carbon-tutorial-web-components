@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Filter Panel + Data Table Layout | Carbon Grid Demo</title>
+  <title>Web Components Example | Carbon Grid Demo</title>
 </head>
 <body class="white">
   <!-- 
@@ -16,10 +16,10 @@
     <cds-header-name prefix="Ofqual" href="/index.html">Layout Demo</cds-header-name>
     <cds-header-nav aria-label="Demo navigation">
       <cds-header-nav-item href="./page-single-column.html">Single Column</cds-header-nav-item>
-      <cds-header-nav-item href="./page-filter-table.html" is-active="">Filter + Table</cds-header-nav-item>
+      <cds-header-nav-item href="./page-filter-table.html">Filter + Table</cds-header-nav-item>
       <cds-header-nav-item href="./page-shell-side-nav.html">Shell + Side Nav</cds-header-nav-item>
       <cds-header-nav-item href="./page-link-nav.html">Link Nav</cds-header-nav-item>
-      <cds-header-nav-item href="./web-components-example.html">Web Components Example</cds-header-nav-item>
+      <cds-header-nav-item href="./web-components-example.html" is-active="">Web Components Example</cds-header-nav-item>
     </cds-header-nav>
     <cds-skip-to-content href="#main-content">Skip to main content</cds-skip-to-content>
   </cds-header>
@@ -28,7 +28,7 @@
       <cds-side-nav-link href="./page-single-column.html">
         Single Column
       </cds-side-nav-link>
-      <cds-side-nav-link href="./page-filter-table.html" active>
+      <cds-side-nav-link href="./page-filter-table.html">
         Filter + Table
       </cds-side-nav-link>
       <cds-side-nav-link href="./page-shell-side-nav.html">
@@ -37,7 +37,7 @@
       <cds-side-nav-link href="./page-link-nav.html">
         Link Nav
       </cds-side-nav-link>
-      <cds-side-nav-link href="./web-components-example.html">
+      <cds-side-nav-link href="./web-components-example.html" active>
         Web Components Example
       </cds-side-nav-link>
     </cds-side-nav-items>
@@ -48,16 +48,15 @@
       Grid Container: 16-column grid at lg breakpoint
       Grid classes are applied to content containers (not wrapper divs)
     -->
-    <div class="cds--css-grid cds--css-grid--full-width">
+    <cds-grid full-width="">
       
       <!-- Left Column: Filter Panel (4 columns on large) -->
       <!-- 
         Constitution: Grid class on same element as content
         Responsive: sm=4 (full), md=8 (full), lg=4 (left column)
       -->
-      <aside 
-        class="filter-panel cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-4 cds--xlg:col-span-4 cds--max:col-span-4"
-        aria-label="Filter controls">
+      <cds-column class="filter-panel" sm="4" md="8" lg="4" xlg="4" max="4" aria-label="Filter controls">
+
         <h2 class="filter-panel__heading">Filters</h2>
         
         <!-- 5 sample filter controls using Carbon components (per spec clarification) -->
@@ -84,17 +83,14 @@
         <div class="filter-panel__control">
           <cds-text-input  label="Search" placeholder="Search..."></cds-text-input>
         </div>
-      </aside>
+      </cds-column>
 
       <!-- Right Column: Data Table (12 columns on large) -->
       <!-- 
         Constitution: Grid class on same element as content
         Responsive: sm=4 (full), md=8 (full), lg=12 (right column)
       -->
-      <div 
-        class="data-table-demo cds--css-grid-column cds--sm:col-span-4 cds--md:col-span-8 cds--lg:col-span-12 cds--xlg:col-span-12 cds--max:col-span-12"
-        role="region"
-        aria-label="Data table">
+      <cds-column sm="4" md="8" lg="12" xlg="12" max="12" aria-label="Data table">
         
         <cds-table>
           <cds-table-header-title slot="title">DataTable</cds-table-header-title>
@@ -178,15 +174,15 @@
             </cds-table-row>
           </cds-table-body>
         </cds-table>
-      </div>
+      </cds-column>
       
-    </div>
+    </cds-grid>
   </main>
 
   <!-- 
     Import JavaScript module
     Constitution: Styles imported first in JS module, then components
   -->
-  <script type="module" src="./page-filter-table.js"></script>
+  <script type="module" src="./web-components-example.js"></script>
 </body>
 </html>
